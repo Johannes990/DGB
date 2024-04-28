@@ -31,7 +31,7 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
-    setNodePositions(WORLD_ARRAY);
+    setNodePositions(WORLD_BASE_GRID);
 
     InitWindow(screenWidth, screenHeight, "");
 
@@ -69,16 +69,16 @@ int main(void)
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-            ClearBackground(LIGHTGRAY);
+            ClearBackground(WHITE);
 
             BeginMode2D(camera);
                 for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
                     for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
                         DrawCircle(
-                            WORLD_ARRAY[i][j].posX,
-                            WORLD_ARRAY[i][j].posY,
-                            5.0f,
-                            BLACK
+                            WORLD_BASE_GRID[i][j].posX,
+                            WORLD_BASE_GRID[i][j].posY,
+                            1.0f,
+                            GRAY
                         );
                     }
                 }
