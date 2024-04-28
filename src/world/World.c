@@ -2,6 +2,8 @@
 #include "WorldNode.h"
 #include "World.h"
 
+// world array
+struct WorldNode WORLD_ARRAY[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 
 // function definitions
 void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y], int sizeX, int sizeY) {

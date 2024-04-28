@@ -15,6 +15,7 @@
 
 #include "raylib.h"
 #include "raymath.h"
+#include "world/World.h"
 
 
 //----------------------------------------------------------------------------------
@@ -28,10 +29,11 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = WORLD_WIDTH;
+    const int screenHeight = WORLD_HEIGHT;
+    setNodePositions(WORLD_ARRAY);
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - 2d camera");
+    InitWindow(screenWidth, screenHeight, "");
 
     Camera2D camera = { 0 };
     camera.target = (Vector2){ screenHeight/2.0f, screenHeight/2.0f };
@@ -70,17 +72,23 @@ int main(void)
             ClearBackground(LIGHTGRAY);
 
             BeginMode2D(camera);
+                for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
+                    for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
+                        DrawCircle(
+                            WORLD_ARRAY[i][j].posX,
+                            WORLD_ARRAY[i][j].posY,
+                            3.0f,
+                            BLACK
+                        );
+                    }
+                }
 
                 DrawCircle(100, 100, 15, GOLD);
 
             EndMode2D();
 
-            DrawText("Controls:", 20, 20, 10, BLACK);
-            DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
-            DrawText("- Space to jump", 40, 60, 10, DARKGRAY);
-            DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
-            DrawText("- C to change camera mode", 40, 100, 10, DARKGRAY);
-            DrawText("Current camera mode:", 20, 120, 10, BLACK);
+            DrawText("World node positions here", 20, 20, 10, BLACK);
+            
 
         EndDrawing();
         //----------------------------------------------------------------------------------
