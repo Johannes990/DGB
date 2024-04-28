@@ -24,6 +24,7 @@ void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODE
         for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
             world[i][j].posX = X_PAD + ((i + 1) * WORLD_NODESPACING);
             world[i][j].posY = Y_PAD + ((j + 1) * WORLD_NODESPACING);
+            world[i][j].occupied = 0;
         }
     }
 }
@@ -33,6 +34,9 @@ void seedCells(int cellCount, int cellRadius, float clearRadius, int seed) {
         errno = ERROR_ENTITY_LIMIT_EXCEEDED;
         return;
     }
+
+    // should include some error handling here for when the
+    // clearRadius is taken into account as well
 
     if (cellRadius < 1) {
         errno = ERROR_MIN_CELL_RADIUS;
@@ -44,15 +48,22 @@ void seedCells(int cellCount, int cellRadius, float clearRadius, int seed) {
         return;
     }
 
-    // should include some error handling here for when the
-    // clearRadius is taken into account as well
     for (int i = 0; i < cellCount; i++) {
-        int x = randIntInRange(0, WORLD_NODECOUNT_X);
-        int y = randIntInRange(0, WORLD_NODECOUNT_Y);
+        int nodePosX = randIntInRange(0, WORLD_NODECOUNT_X);
+        int nodePosY = randIntInRange(0, WORLD_NODECOUNT_Y);
         int r = randIntInRange(1, cellRadius);
-        WORLD_INHABITED_CELLS[i].posX = x;
-        WORLD_INHABITED_CELLS[i].posY = y;
+        WorldNode node = WORLD_BASE_GRID[nodePosX][nodePosY];
+
+        while (node.occupied == 1) {
+            int nodePosX = randIntInRange(0, WORLD_NODECOUNT_X);
+            int nodePosY = randIntInRange(0, WORLD_NODECOUNT_Y);
+            node = WORLD_BASE_GRID[nodePosX][nodePosY];
+        }
+
+        WORLD_INHABITED_CELLS[i].posX = node.posX;
+        WORLD_INHABITED_CELLS[i].posY = node.posY;
         WORLD_INHABITED_CELLS[i].radius = r;
+        node.occupied = 1;
     }   
 }
 

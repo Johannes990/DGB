@@ -4,6 +4,7 @@
 typedef struct WorldNode {
     int posX;
     int posY;
+    int occupied;
 } WorldNode;
 
 #endif
