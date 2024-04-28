@@ -7,7 +7,7 @@
 // constants
 #define X_PAD 100
 #define Y_PAD 100
-#define WORLD_NODESPACING 20
+#define WORLD_NODESPACING 30
 #define WORLD_NODECOUNT_Y 25
 #define WORLD_NODECOUNT_X 25
 #define WORLD_WIDTH ((WORLD_NODESPACING * WORLD_NODECOUNT_X) + (2 * WORLD_NODESPACING) + (2 * X_PAD))
@@ -19,9 +19,11 @@ extern struct Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 extern struct WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 
 // function declarations
-void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y], int sizeX, int sizeY);
+void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
-void seedCells(int cellCount, int cellRadius, float clearRadius, int seed);
+void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
 int randIntInRange(int low, int high);
+void seedRandomInt(int seed);
+void seedRandomTime();
 
 #endif

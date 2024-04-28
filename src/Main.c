@@ -32,8 +32,14 @@ int main(void)
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
     const int cellCount = 5;
+    const float minCellRadius = 5.0f;
+    const float maxCellRadius = 15.0f;
+    const int seed = 135;
+
+    seedRandomTime();
     constructWorldBaseGrid(WORLD_BASE_GRID);
-    seedCells(cellCount, 10, 1, 1);
+    printWorld(WORLD_BASE_GRID);
+    seedCells(cellCount, minCellRadius, maxCellRadius, 1);
 
     InitWindow(screenWidth, screenHeight, "");
 
@@ -90,8 +96,15 @@ int main(void)
                     DrawCircle(
                         WORLD_INHABITED_CELLS[j].posX,
                         WORLD_INHABITED_CELLS[j].posY,
-                        WORLD_INHABITED_CELLS[j].radius,
+                        WORLD_INHABITED_CELLS[j].radius + 1,
                         BLACK
+                    );
+
+                    DrawCircle(
+                        WORLD_INHABITED_CELLS[j].posX,
+                        WORLD_INHABITED_CELLS[j].posY,
+                        WORLD_INHABITED_CELLS[j].radius,
+                        PURPLE
                     );
                 }
 
