@@ -77,13 +77,11 @@ int main(void)
                         DrawCircle(
                             WORLD_ARRAY[i][j].posX,
                             WORLD_ARRAY[i][j].posY,
-                            3.0f,
+                            5.0f,
                             BLACK
                         );
                     }
                 }
-
-                DrawCircle(100, 100, 15, GOLD);
 
             EndMode2D();
 
