@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include "WorldNode.h"
+#include "../entities/Cell.h"
 
 // constants
 #define X_PAD 100

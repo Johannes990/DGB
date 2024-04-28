@@ -31,7 +31,9 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
+    const int cellCount = 5;
     constructWorldBaseGrid(WORLD_BASE_GRID);
+    seedCells(cellCount, 10, 1, 1);
 
     InitWindow(screenWidth, screenHeight, "");
 
@@ -72,6 +74,7 @@ int main(void)
             ClearBackground(WHITE);
 
             BeginMode2D(camera);
+
                 for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
                     for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
                         DrawCircle(
@@ -81,6 +84,15 @@ int main(void)
                             GRAY
                         );
                     }
+                }
+
+                for (int j = 0; j < cellCount; j++) {
+                    DrawCircle(
+                        WORLD_INHABITED_CELLS[j].posX,
+                        WORLD_INHABITED_CELLS[j].posY,
+                        WORLD_INHABITED_CELLS[j].radius,
+                        BLACK
+                    );
                 }
 
             EndMode2D();

@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include "WorldNode.h"
 #include "World.h"
-#include "../entities/Cell.h"
 #include "../errorhandling/Errors.h"
 
 
 // world array
 struct WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
+struct Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 
 // function definitions
 void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y], int sizeX, int sizeY) {

@@ -4,7 +4,7 @@
 typedef struct Cell {
     int posX;
     int posY;
-    int radius;
+    float radius;
 } Cell;
 
 #endif
