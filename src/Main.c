@@ -31,7 +31,7 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
-    setNodePositions(WORLD_BASE_GRID);
+    constructWorldBaseGrid(WORLD_BASE_GRID);
 
     InitWindow(screenWidth, screenHeight, "");
 
