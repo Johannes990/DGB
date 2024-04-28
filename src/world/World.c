@@ -20,6 +20,8 @@ void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
 }
 
 void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
+    // some bug here, for some reason some cells
+    // end up in the top left corner of window
     for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
         for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
             world[i][j].posX = X_PAD + ((i + 1) * WORLD_NODESPACING);
