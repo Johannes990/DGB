@@ -4,6 +4,8 @@
 #include "WorldNode.h"
 #include "World.h"
 #include "../entities/Cell.h"
+#include "../errorhandling/Errors.h"
+
 
 // world array
 struct WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
@@ -28,12 +30,18 @@ void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODE
 
 void seedCells(int cellCount, int cellRadius, float clearRadius, int seed) {
     if (cellCount > WORLD_MAX_ENTITY_COUNT) {
-        errno = EOVERFLOW;
+        errno = ERROR_ENTITY_LIMIT_EXCEEDED;
         return;
     }
 
     if (cellRadius < 1) {
-        errno = 
+        errno = ERROR_MIN_CELL_RADIUS;
+        return;
+    }
+
+    if (cellRadius >= WORLD_NODESPACING) {
+        errno = ERROR_MAX_CELL_RADIUS;
+        return;
     }
 
     // should include some error handling here for when the
@@ -44,7 +52,7 @@ void seedCells(int cellCount, int cellRadius, float clearRadius, int seed) {
         int r = randIntInRange(1, cellRadius);
         WORLD_INHABITED_CELLS[i].posX = x;
         WORLD_INHABITED_CELLS[i].posY = y;
-        WORLD_INHABITED_CELLS[i].radius = 
+        WORLD_INHABITED_CELLS[i].radius = r;
     }   
 }
 
