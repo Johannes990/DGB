@@ -4,6 +4,10 @@
 #include "CellConnections.h"
 #include "../error_handling/Errors.h"
 
+// local declarations
+static void initializeCellConnectionsArray(CellConnections* cellConnections, int totalConnections, int cellsInConnection);
+static int findAvailablePosition(CellConnections* cellConnections);
+
 
 // public function definitions
 CellConnections* createCellConnectionArray(int connectionSize, int connectionCount) {
@@ -76,7 +80,7 @@ void addConnection(CellConnections* cellConnections, Cell cellConnectionGroup[])
 
     int availablePos = findAvailablePosition(cellConnections);
 
-    if (availablePos == NULL) {
+    if (availablePos == -1) {
         return;
     }
 
@@ -93,7 +97,7 @@ void addConnection(CellConnections* cellConnections, Cell cellConnectionGroup[])
 }
 
 // private function definitions
-void initializeCellConnectionsArray(CellConnections* cellConnections, int totalConnections, int cellsInConnection) {
+static void initializeCellConnectionsArray(CellConnections* cellConnections, int totalConnections, int cellsInConnection) {
     for (int i = 0; i < totalConnections; i++) {
         for (int j = 0; j < cellsInConnection; j++) {
             cellConnections->connectionArray[i][j] = NULL;
@@ -101,7 +105,7 @@ void initializeCellConnectionsArray(CellConnections* cellConnections, int totalC
     }
 }
 
-int findAvailablePosition(CellConnections* cellConnections) {
+static int findAvailablePosition(CellConnections* cellConnections) {
     for (int i = 0; i < cellConnections->connectionCount; i++) {
         for (int j = 0; j > cellConnections->connectionSize; j++) {
             if (cellConnections->connectionArray[i][j] == NULL) {
@@ -111,5 +115,5 @@ int findAvailablePosition(CellConnections* cellConnections) {
     }
 
     errno = ERROR_CELLCONNECTIONS_STRUCT_MEMORY_FULL;
-    return NULL;
+    return -1;
 }

@@ -4,7 +4,12 @@
 #include <time.h>
 #include "World.h"
 #include "../error_handling/Errors.h"
-#include "../world_connections/CellConnections.h"
+
+// local declarations
+static int randIntInRange(int low, int high);
+static int intWrap(int input, int low, int high);
+static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY);
+static void initializeCell(WorldNode *node, int r, int idx);
 
 
 // world variables
@@ -79,7 +84,7 @@ void initializeCellConnectionArray(int connectionSize, int connectionCount) {
     WORLD_CELL_CONNECTIONS = createCellConnectionArray(connectionSize, connectionCount);
 }
 
-void addConnectedCellGroup(const int cellIdxArray[]) {
+void addConnectedCellGroup(const int cellIdxArray[], int cellCount) {
     if (WORLD_INHABITED_CELLS == NULL) {
         errno = ERROR_WORLD_INHABITED_CELLS_UNALLOCATED;
         return;
@@ -95,12 +100,12 @@ void addConnectedCellGroup(const int cellIdxArray[]) {
         return;
     }
 
-    if ((sizeof(cellIdxArray) / sizeof(int)) != CELL_CONNECTION_SIZE) {
+    if (cellCount != CELL_CONNECTION_SIZE) {
         errno = ERROR_WORLD_PROPOSED_CELL_CONNECTION_SIZE_MISMATCH;
         return;
     }
 
-    Cell connectedCells[CELL_CONNECTION_SIZE] = {NULL};
+    Cell connectedCells[CELL_CONNECTION_SIZE] = {0};
 
     // this function needs error handling as well
     // current version for testing purposes
@@ -111,30 +116,6 @@ void addConnectedCellGroup(const int cellIdxArray[]) {
     addConnection(WORLD_CELL_CONNECTIONS, connectedCells);
 }
 
-// private function definitions
-int randIntInRange(int low, int high) {
-    int random = rand();
-    return intWrap(random, low, high);
-}
-
-int intWrap(int input, int low, int high) {
-    return (input % (high - low + 1)) + low;
-}
-
-void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY) {
-    int x = randIntInRange(lowX, highX - 1);
-    int y = randIntInRange(lowY, highY - 1);
-    posArray[0] = x;
-    posArray[1] = y;
-}
-
-void initializeCell(WorldNode *node, int r, int idx) {
-    WORLD_INHABITED_CELLS[idx].posX = node->posX;
-    WORLD_INHABITED_CELLS[idx].posY = node->posY;
-    WORLD_INHABITED_CELLS[idx].radius = r;
-    WORLD_INHABITED_CELLS[idx].connectionCount = 0;
-}
-
 void seedRandomInt(int seed) {
     srand(seed);
 }
@@ -143,6 +124,26 @@ void seedRandomTime() {
     srand((unsigned int)time(NULL));
 }
 
-int sizeOfIntArray(int *array) {
-    return sizeof(array) / sizeof(array[0]);
+// private function definitions
+static int randIntInRange(int low, int high) {
+    int random = rand();
+    return intWrap(random, low, high);
+}
+
+static int intWrap(int input, int low, int high) {
+    return (input % (high - low + 1)) + low;
+}
+
+static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY) {
+    int x = randIntInRange(lowX, highX - 1);
+    int y = randIntInRange(lowY, highY - 1);
+    posArray[0] = x;
+    posArray[1] = y;
+}
+
+static void initializeCell(WorldNode *node, int r, int idx) {
+    WORLD_INHABITED_CELLS[idx].posX = node->posX;
+    WORLD_INHABITED_CELLS[idx].posY = node->posY;
+    WORLD_INHABITED_CELLS[idx].radius = r;
+    WORLD_INHABITED_CELLS[idx].connectionCount = 0;
 }

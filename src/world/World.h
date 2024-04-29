@@ -25,6 +25,8 @@ void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void initializeWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
 void initializeCellConnectionArray(int connectionSize, int connectionCount);
-void addConnectedCellGroup(const int cellIdxArray[]);
+void addConnectedCellGroup(const int cellIdxArray[], int cellCount);
+void seedRandomInt(int seed);
+void seedRandomTime();
 
 #endif
