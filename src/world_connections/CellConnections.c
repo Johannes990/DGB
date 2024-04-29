@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include "raylib.h"
 #include "CellConnections.h"
 #include "../error_handling/Errors.h"
 
@@ -60,32 +61,55 @@ CellConnections* createCellConnectionArray(int connectionSize, int connectionCou
 
 void freeCellConnectionArray(CellConnections* cellConnections) {
     if (cellConnections == NULL) {
+        errno = ERROR_GLOBAL_NULLPOINTER_ARGUMENT;
         return;
     }
+    printf("passes nullpointer\n");
+    printf("%d\n", cellConnections->connectionCount);
+    printf("%d\n", cellConnections->connectionSize);
+
 
     for (int i = 0; i < cellConnections->connectionCount; i++) {
         for (int j = 0; j < cellConnections->connectionSize; j++) {
+            printf("entry[][]\n");
+            printf("cellPositions[%d][%d]: %p\n", i, j, cellConnections->connectionArray[i][j]);
+            if (cellConnections->connectionArray[i][j] == NULL) {
+                errno = ERROR_GLOBAL_NULLPOINTER_ARGUMENT;
+                return;
+            }
             free(cellConnections->connectionArray[i][j]);
+            printf("passes[][]\n");
+
         }
         free(cellConnections->connectionArray[i]);
+        printf("passes[]\n");
+
     }
     free(cellConnections->connectionArray);
+    printf("passes array\n");
+
     free(cellConnections);
+    printf("passes cellconnections\n");
+
 }
 
 void addConnection(CellConnections* cellConnections, Cell cellConnectionGroup[]) {
+    printf("adding a new connection between the cells\n");
     if (cellConnections == NULL || cellConnectionGroup == NULL) {
         errno = ERROR_GLOBAL_NULLPOINTER_ARGUMENT;
         return;
     }
 
     int availablePos = findAvailablePosition(cellConnections);
+    printf("found available index %d\n", availablePos);
 
     if (availablePos == -1) {
         return;
     }
 
     int freeConnIdx = availablePos / cellConnections->connectionSize;
+        printf("available spot in CellConnections %d\n", freeConnIdx);
+
 
     if (freeConnIdx >= cellConnections->connectionCount) {
         errno = ERROR_CELLCONNECTIONS_NEW_CONNECTION_OVER_MAX_COUNT;
@@ -95,6 +119,29 @@ void addConnection(CellConnections* cellConnections, Cell cellConnectionGroup[])
     for (int i = 0; i < cellConnections->connectionSize; i++) {
         cellConnections->connectionArray[freeConnIdx][i] = &cellConnectionGroup[i];
     }
+}
+
+void printCellConnections(CellConnections* cellConnections) {
+    if (cellConnections == NULL) {
+        printf("cellConnections is null!!\n");
+        return;
+    }
+    int connections = cellConnections->connectionCount;
+    int cellsPerConnection = cellConnections->connectionSize;
+    printf("cell connection struct has:\n");
+    printf("\t%d total connection spots\n", connections);
+    printf("\t%d cells per connection\n", cellsPerConnection);
+
+    for (int i = 0; i < connections; i++) {
+        Cell cell1 = *cellConnections->connectionArray[i][0];
+        Cell cell2 = *cellConnections->connectionArray[i][1];
+        printf("cell1 x: %d, y: %d", cell1.posX, cell1.posY);
+        printf("cell2 x: %d, y: %d\n", cell2.posX, cell2. posY);
+
+        //DrawLine(cell1.posX, cell1.posY, cell2.posX, cell2.posY, RED);
+    }
+
+    printf("\n");
 }
 
 // private function definitions
@@ -108,7 +155,7 @@ static void initializeCellConnectionsArray(CellConnections* cellConnections, int
 
 static int findAvailablePosition(CellConnections* cellConnections) {
     for (int i = 0; i < cellConnections->connectionCount; i++) {
-        for (int j = 0; j > cellConnections->connectionSize; j++) {
+        for (int j = 0; j < cellConnections->connectionSize; j++) {
             if (cellConnections->connectionArray[i][j] == NULL) {
                 return i * cellConnections->connectionSize + j;
             }

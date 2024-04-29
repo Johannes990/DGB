@@ -109,7 +109,9 @@ void addConnectedCellGroup(const int cellIdxArray[], int cellCount) {
     // this function needs error handling as well
     // current version for testing purposes
     for (int i = 0; i < CELL_CONNECTION_SIZE; i++) {
-        connectedCells[i] = WORLD_INHABITED_CELLS[i];
+        Cell cell = WORLD_INHABITED_CELLS[cellIdxArray[i]];
+        printf("found cell with coordinates (%d, %d) for adding into group\n", cell.posX, cell.posY);
+        connectedCells[i] = cell;
     }
 
     addConnection(WORLD_CELL_CONNECTIONS, connectedCells);
