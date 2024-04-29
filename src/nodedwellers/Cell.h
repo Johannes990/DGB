@@ -5,6 +5,8 @@ typedef struct Cell {
     int posX;
     int posY;
     float radius;
+    int connectionCount;
+
 } Cell;
 
 #endif
