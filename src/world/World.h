@@ -23,7 +23,10 @@ void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
 int randIntInRange(int low, int high);
+int intWrap(int input, int low, int high);
+void getRandomCellPosition(int *posArray, int lowX, int highX, int lowY, int highY);
 void seedRandomInt(int seed);
 void seedRandomTime();
+int sizeOfIntArray(int *array);
 
 #endif

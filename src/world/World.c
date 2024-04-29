@@ -51,27 +51,41 @@ void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float cl
     }
 
     for (int i = 0; i < cellCount; i++) {
-        int nodePosX = randIntInRange(0, WORLD_NODECOUNT_X);
-        int nodePosY = randIntInRange(0, WORLD_NODECOUNT_Y);
-        int r = randIntInRange(1, maxCellRadius);
-        WorldNode node = WORLD_BASE_GRID[nodePosX][nodePosY];
+        int cellPos[] = {0, 0};
 
-        while (node.occupied == 1) {
-            int nodePosX = randIntInRange(0, WORLD_NODECOUNT_X);
-            int nodePosY = randIntInRange(0, WORLD_NODECOUNT_Y);
-            node = WORLD_BASE_GRID[nodePosX][nodePosY];
+        getRandomCellPosition(cellPos, 0, WORLD_NODECOUNT_X, 0, WORLD_NODECOUNT_Y);
+        WorldNode *node = &WORLD_BASE_GRID[cellPos[0]][cellPos[1]];
+        printf("Node[%d][%d], occupancy: %d\n", cellPos[0], cellPos[1], node->occupied);
+
+        while (node->occupied) {
+            getRandomCellPosition(cellPos, 0, WORLD_NODECOUNT_X, 0, WORLD_NODECOUNT_Y);
+            node = &WORLD_BASE_GRID[cellPos[0]][cellPos[1]];
+            printf("Node[%d][%d], occupancy: %d\n", cellPos[0], cellPos[1], node->occupied);
         }
 
-        WORLD_INHABITED_CELLS[i].posX = node.posX;
-        WORLD_INHABITED_CELLS[i].posY = node.posY;
+        int r = randIntInRange(1, maxCellRadius);
+
+        WORLD_INHABITED_CELLS[i].posX = node->posX;
+        WORLD_INHABITED_CELLS[i].posY = node->posY;
         WORLD_INHABITED_CELLS[i].radius = r;
-        node.occupied = 1;
+        node->occupied = 1;
     }   
 }
 
 int randIntInRange(int low, int high) {
     int random = rand();
-    return (random % (high - low + 1)) + low;
+    return intWrap(random, low, high);
+}
+
+int intWrap(int input, int low, int high) {
+    return (input % (high - low + 1)) + low;
+}
+
+void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY) {
+    int x = randIntInRange(lowX, highX - 1);
+    int y = randIntInRange(lowY, highY - 1);
+    posArray[0] = x;
+    posArray[1] = y;
 }
 
 void seedRandomInt(int seed) {
@@ -80,4 +94,8 @@ void seedRandomInt(int seed) {
 
 void seedRandomTime() {
     srand((unsigned int)time(NULL));
+}
+
+int sizeOfIntArray(int *array) {
+    return sizeof(array) / sizeof(array[0]);
 }

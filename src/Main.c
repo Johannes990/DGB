@@ -16,6 +16,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "world/World.h"
+#include <stdio.h>
 
 
 //----------------------------------------------------------------------------------
@@ -31,15 +32,15 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
-    const int cellCount = 5;
+    const int cellCount = 100;
     const float minCellRadius = 5.0f;
     const float maxCellRadius = 15.0f;
     const int seed = 135;
 
     seedRandomTime();
     constructWorldBaseGrid(WORLD_BASE_GRID);
-    printWorld(WORLD_BASE_GRID);
     seedCells(cellCount, minCellRadius, maxCellRadius, 1);
+    printWorld(WORLD_BASE_GRID);
 
     InitWindow(screenWidth, screenHeight, "");
 
