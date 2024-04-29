@@ -15,6 +15,6 @@ typedef struct CellConnections {
 
 CellConnections* createCellConnectionArray(int connectionSize, int connectionCount);
 void freeCellConnectionArray(CellConnections* connections);
-void addConnection(CellConnections* CellConnections, Cell** connectedCells);
+void addConnection(CellConnections* CellConnections, Cell connectedCells[]);
 
 #endif

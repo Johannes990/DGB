@@ -4,11 +4,15 @@
 #include <time.h>
 #include "World.h"
 #include "../error_handling/Errors.h"
+#include "../world_connections/CellConnections.h"
 
 
-// world arrays
+// world variables
 WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
+CellConnections* WORLD_CELL_CONNECTIONS;
+int worldCellConnectionCount;
+
 
 // public function definitions
 void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
@@ -19,9 +23,7 @@ void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     }
 }
 
-void constructWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
-    // some bug here, for some reason some cells
-    // end up in the top left corner of window
+void initializeWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
         for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
             world[i][j].posX = X_PAD + ((i + 1) * WORLD_NODESPACING);
@@ -31,7 +33,7 @@ void constructWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y
     }
 }
 
-void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius) {
+void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius) {
     if (cellCount > WORLD_MAX_ENTITY_COUNT) {
         errno = ERROR_WORLD_CELL_LIMIT_EXCEEDED;
         return;
@@ -72,10 +74,41 @@ void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float cl
     }   
 }
 
-void createCellConnectionsFixedAmount(int connectionCount, int cellCount) {
-    for (int i = 0; i < connectionCount; i++) {
-        
+void initializeCellConnectionArray(int connectionSize, int connectionCount) {
+    worldCellConnectionCount = connectionCount;
+    WORLD_CELL_CONNECTIONS = createCellConnectionArray(connectionSize, connectionCount);
+}
+
+void addConnectedCellGroup(const int cellIdxArray[]) {
+    if (WORLD_INHABITED_CELLS == NULL) {
+        errno = ERROR_WORLD_INHABITED_CELLS_UNALLOCATED;
+        return;
     }
+
+    if (cellIdxArray == NULL) {
+        errno = ERROR_GLOBAL_NULLPOINTER_ARGUMENT;
+        return;
+    }
+
+    if (WORLD_CELL_CONNECTIONS == NULL) {
+        errno = ERROR_CELLCONNECTIONS_STRUCT_MEMORY_UNALLOCATED;
+        return;
+    }
+
+    if ((sizeof(cellIdxArray) / sizeof(int)) != CELL_CONNECTION_SIZE) {
+        errno = ERROR_WORLD_PROPOSED_CELL_CONNECTION_SIZE_MISMATCH;
+        return;
+    }
+
+    Cell connectedCells[CELL_CONNECTION_SIZE] = {NULL};
+
+    // this function needs error handling as well
+    // current version for testing purposes
+    for (int i = 0; i < CELL_CONNECTION_SIZE; i++) {
+        connectedCells[i] = WORLD_INHABITED_CELLS[i];
+    }
+
+    addConnection(WORLD_CELL_CONNECTIONS, connectedCells);
 }
 
 // private function definitions

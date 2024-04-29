@@ -68,7 +68,7 @@ void freeCellConnectionArray(CellConnections* cellConnections) {
     free(cellConnections);
 }
 
-void addConnection(CellConnections* cellConnections, Cell** cellConnectionGroup) {
+void addConnection(CellConnections* cellConnections, Cell cellConnectionGroup[]) {
     if (cellConnections == NULL || cellConnectionGroup == NULL) {
         errno = ERROR_GLOBAL_NULLPOINTER_ARGUMENT;
         return;
@@ -88,7 +88,7 @@ void addConnection(CellConnections* cellConnections, Cell** cellConnectionGroup)
     }
 
     for (int i = 0; i < cellConnections->connectionSize; i++) {
-        cellConnections->connectionArray[freeConnIdx][i] = cellConnectionGroup[i];
+        cellConnections->connectionArray[freeConnIdx][i] = &cellConnectionGroup[i];
     }
 }
 

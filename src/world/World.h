@@ -17,13 +17,14 @@
 
 // world objects
 extern Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
-extern WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
-extern 
+extern WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]; 
+extern CellConnections* WORLD_CELL_CONNECTIONS;
 
 // function declarations
 void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
-void constructWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
-void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
-void createCellConnectionsFixedAmount(int connectionCount, int cellCount);
+void initializeWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
+void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
+void initializeCellConnectionArray(int connectionSize, int connectionCount);
+void addConnectedCellGroup(const int cellIdxArray[]);
 
 #endif
