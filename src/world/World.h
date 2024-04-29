@@ -4,6 +4,7 @@
 #include "WorldNode.h"
 #include "../world_objects/Cell.h"
 #include "../world_connections/CellConnections.h"
+#include <errno.h>
 
 // constants
 #define X_PAD 100

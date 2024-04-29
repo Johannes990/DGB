@@ -11,6 +11,7 @@ static int findAvailablePosition(CellConnections* cellConnections);
 
 // public function definitions
 CellConnections* createCellConnectionArray(int connectionSize, int connectionCount) {
+    printf("Creating cellConnectionsArray. connection size: %d, connection count: %d", connectionSize, connectionCount);
     CellConnections* cellConnections = malloc(sizeof(CellConnections));
 
     if (cellConnections == NULL) {

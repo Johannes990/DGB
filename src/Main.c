@@ -37,24 +37,26 @@ int main(void)
     const float minCellRadius = 5.0f;
     const float maxCellRadius = 15.0f;
     const int seed = 135;
-    const int worldConnectionNumber = 5;
+    const int worldCellConnectionCount = 5;
 
     seedRandomTime();
     initializeWorldBaseGrid(WORLD_BASE_GRID);
     initializeCells(cellCount, minCellRadius, maxCellRadius, 1);
-    initializeCellConnectionArray(worldConnectionNumber, CELL_CONNECTION_SIZE);
+    printf("\ninitialized Cells. errno = %d\n", errno);
+    initializeCellConnectionArray(CELL_CONNECTION_SIZE, worldCellConnectionCount);
+    printf("\ninitialized Cell connection array, errno = %d\n", errno);
     // add our 5 connections
     const int conn1[] = {1, 2};
     const int conn2[] = {2, 3};
     const int conn3[] = {10, 36};
     const int conn4[] = {5, 60};
     const int conn5[] = {7, 1};
-    addConnectedCellGroup(conn1);
-    addConnectedCellGroup(conn2);
-    addConnectedCellGroup(conn3);
-    addConnectedCellGroup(conn4);
-    addConnectedCellGroup(conn5);
-    printWorld(WORLD_BASE_GRID);
+    addConnectedCellGroup(conn1, CELL_CONNECTION_SIZE);
+    addConnectedCellGroup(conn2, CELL_CONNECTION_SIZE);
+    addConnectedCellGroup(conn3, CELL_CONNECTION_SIZE);
+    addConnectedCellGroup(conn4, CELL_CONNECTION_SIZE);
+    addConnectedCellGroup(conn5, CELL_CONNECTION_SIZE);
+    //printWorld(WORLD_BASE_GRID);
 
     InitWindow(screenWidth, screenHeight, "");
 
@@ -124,7 +126,8 @@ int main(void)
                 }
 
                 // assuming a connection consists of 2 cells here
-                for (int i = 0; i < WORLD_CELL_CONNECTIONS->connectionCount; i++) {
+                for (int i = 0; i < worldCellConnectionCount; i++) {
+                    printf("\nDrawing connection %d\n", i);
                     Cell* a = WORLD_CELL_CONNECTIONS->connectionArray[i][0];
                     Cell* b = WORLD_CELL_CONNECTIONS->connectionArray[i][1];
                     int startX = a->posX;
