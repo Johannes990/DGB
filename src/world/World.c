@@ -6,9 +6,9 @@
 #include "../errorhandling/Errors.h"
 
 
-// world array
-struct WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
-struct Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
+// world arrays
+WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
+Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 
 // public function definitions
 void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
@@ -72,6 +72,12 @@ void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float cl
     }   
 }
 
+void createCellConnectionsFixedAmount(int connectionCount, int cellCount) {
+    for (int i = 0; i < connectionCount; i++) {
+        
+    }
+}
+
 // private function definitions
 int randIntInRange(int low, int high) {
     int random = rand();
@@ -87,6 +93,13 @@ void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int hi
     int y = randIntInRange(lowY, highY - 1);
     posArray[0] = x;
     posArray[1] = y;
+}
+
+void initializeCell(WorldNode *node, int r, int idx) {
+    WORLD_INHABITED_CELLS[idx].posX = node->posX;
+    WORLD_INHABITED_CELLS[idx].posY = node->posY;
+    WORLD_INHABITED_CELLS[idx].radius = r;
+    WORLD_INHABITED_CELLS[idx].connections = 0;
 }
 
 void seedRandomInt(int seed) {

@@ -15,12 +15,13 @@
 #define WORLD_MAX_ENTITY_COUNT WORLD_NODECOUNT_X * WORLD_NODECOUNT_Y
 
 // world objects
-extern struct Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
-extern struct WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
+extern Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
+extern WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 
 // function declarations
 void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
+void createCellConnectionsFixedAmount(int connectionCount, int cellCount);
 
 #endif
