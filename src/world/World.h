@@ -2,7 +2,8 @@
 #define WORLD_H
 
 #include "WorldNode.h"
-#include "../entities/Cell.h"
+#include "../world_dwellers/Cell.h"
+#include "../world_connections/CellConnections.h"
 
 // constants
 #define X_PAD 100
@@ -17,6 +18,7 @@
 // world objects
 extern Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 extern WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
+extern 
 
 // function declarations
 void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);

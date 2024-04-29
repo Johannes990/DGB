@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "World.h"
-#include "../errorhandling/Errors.h"
+#include "../error_handling/Errors.h"
 
 
 // world arrays
@@ -33,7 +33,7 @@ void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODE
 
 void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius) {
     if (cellCount > WORLD_MAX_ENTITY_COUNT) {
-        errno = ERROR_ENTITY_LIMIT_EXCEEDED;
+        errno = ERROR_WORLD_CELL_LIMIT_EXCEEDED;
         return;
     }
 
@@ -41,12 +41,12 @@ void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float cl
     // clearRadius is taken into account as well
 
     if (maxCellRadius < 1) {
-        errno = ERROR_MIN_CELL_RADIUS;
+        errno = ERROR_CELL_CELL_RADIUS_UNDER_MIN;
         return;
     }
 
     if (maxCellRadius >= WORLD_NODESPACING) {
-        errno = ERROR_MAX_CELL_RADIUS;
+        errno = ERROR_CELL_CELL_RADIUS_OVER_MAX;
         return;
     }
 
@@ -99,7 +99,7 @@ void initializeCell(WorldNode *node, int r, int idx) {
     WORLD_INHABITED_CELLS[idx].posX = node->posX;
     WORLD_INHABITED_CELLS[idx].posY = node->posY;
     WORLD_INHABITED_CELLS[idx].radius = r;
-    WORLD_INHABITED_CELLS[idx].connections = 0;
+    WORLD_INHABITED_CELLS[idx].connectionCount = 0;
 }
 
 void seedRandomInt(int seed) {
