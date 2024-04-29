@@ -10,7 +10,7 @@
 struct WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 struct Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 
-// function definitions
+// public function definitions
 void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     for (int i = 0; i < WORLD_NODECOUNT_X ; i++) {
         for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
@@ -72,6 +72,7 @@ void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float cl
     }   
 }
 
+// private function definitions
 int randIntInRange(int low, int high) {
     int random = rand();
     return intWrap(random, low, high);
