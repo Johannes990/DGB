@@ -2,7 +2,7 @@
 #define WORLD_H
 
 #include "WorldNode.h"
-#include "../world_dwellers/Cell.h"
+#include "../world_objects/Cell.h"
 #include "../world_connections/CellConnections.h"
 
 // constants
@@ -21,8 +21,8 @@ extern WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 extern 
 
 // function declarations
-void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
-void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
+void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
+void constructWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void seedCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
 void createCellConnectionsFixedAmount(int connectionCount, int cellCount);
 

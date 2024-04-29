@@ -11,7 +11,7 @@ WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 
 // public function definitions
-void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
+void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     for (int i = 0; i < WORLD_NODECOUNT_X ; i++) {
         for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
             printf("Node[%d][%d]\tx: %d\ty: %d\toccupied: %d\n",i, j, world[i][j].posX, world[i][j].posY, world[i][j].occupied);
@@ -19,7 +19,7 @@ void printWorld(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     }
 }
 
-void constructWorldBaseGrid(struct WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
+void constructWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     // some bug here, for some reason some cells
     // end up in the top left corner of window
     for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
