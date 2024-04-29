@@ -14,12 +14,12 @@ CellConnections* createCellConnectionArray(int connectionSize, int connectionCou
         return NULL;
     }
 
-    if (connectionSize > MAX_CONNECTION_SIZE) {
+    if (connectionSize > CELL_CONNECTION_SIZE) {
         errno = ERROR_CELLCONNECTIONS_CONNECTION_SIZE_OVER_MAX;
         return NULL;
     }
 
-    if (connectionCount > MAX_CONNECTION_COUNT) {
+    if (connectionCount > MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return NULL;
     }

@@ -4,8 +4,8 @@
 #include "../world_objects/Cell.h"
 
 // constants
-#define MAX_CONNECTION_SIZE 2
-#define MAX_CONNECTION_COUNT 1000
+#define CELL_CONNECTION_SIZE 2
+#define MAX_CELL_CONNECTION_COUNT 1000
 
 typedef struct CellConnections {
     Cell*** connectionArray; // pointer to a 2D array of pointers to Cell
