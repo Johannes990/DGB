@@ -68,6 +68,30 @@ void freeCellConnectionArray(CellConnections* cellConnections) {
     free(cellConnections);
 }
 
+void addConnection(CellConnections* cellConnections, Cell** cellConnectionGroup) {
+    if (cellConnections == NULL || cellConnectionGroup == NULL) {
+        errno = ERROR_GLOBAL_NULLPOINTER_ARGUMENT;
+        return;
+    }
+
+    int availablePos = findAvailablePosition(cellConnections);
+
+    if (availablePos == NULL) {
+        return;
+    }
+
+    int freeConnIdx = availablePos / cellConnections->connectionSize;
+
+    if (freeConnIdx >= cellConnections->connectionCount) {
+        errno = ERROR_CELLCONNECTIONS_NEW_CONNECTION_OVER_MAX_COUNT;
+        return;
+    }
+
+    for (int i = 0; i < cellConnections->connectionSize; i++) {
+        cellConnections->connectionArray[freeConnIdx][i] = cellConnectionGroup[i];
+    }
+}
+
 // private function definitions
 void initializeCellConnectionsArray(CellConnections* cellConnections, int totalConnections, int cellsInConnection) {
     for (int i = 0; i < totalConnections; i++) {
@@ -75,4 +99,17 @@ void initializeCellConnectionsArray(CellConnections* cellConnections, int totalC
             cellConnections->connectionArray[i][j] = NULL;
         }
     }
+}
+
+int findAvailablePosition(CellConnections* cellConnections) {
+    for (int i = 0; i < cellConnections->connectionCount; i++) {
+        for (int j = 0; j > cellConnections->connectionSize; j++) {
+            if (cellConnections->connectionArray[i][j] == NULL) {
+                return i * cellConnections->connectionSize + j;
+            }
+        }
+    }
+
+    errno = ERROR_CELLCONNECTIONS_STRUCT_MEMORY_FULL;
+    return NULL;
 }

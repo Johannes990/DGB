@@ -1,7 +1,7 @@
 #ifndef CELLCONNECTIONS_H
 #define CELLCONNECTIONS_H
 
-#include "../world_dwellers/Cell.h"
+#include "../world_objects/Cell.h"
 
 // constants
 #define MAX_CONNECTION_SIZE 2
@@ -15,5 +15,6 @@ typedef struct CellConnections {
 
 CellConnections* createCellConnectionArray(int connectionSize, int connectionCount);
 void freeCellConnectionArray(CellConnections* connections);
+void addConnection(CellConnections* CellConnections, Cell** connectedCells);
 
 #endif
