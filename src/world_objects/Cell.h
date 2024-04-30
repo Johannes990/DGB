@@ -6,9 +6,8 @@
 
 typedef struct Cell {
     BaseCell baseCellAttrs;
-    BaseCell cellConnections[MAX_CELL_CONNECTION_COUNT] = {};
+    BaseCell cellConnections[MAX_CELL_CONNECTION_COUNT];
     int connectionCount;
-
 } Cell;
 
 #endif

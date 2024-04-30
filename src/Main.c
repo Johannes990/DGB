@@ -16,7 +16,6 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "world/World.h"
-#include "world_connections/CellConnections.h"
 #include <stdio.h>
 
 
@@ -85,6 +84,7 @@ int main(void)
 
             BeginMode2D(camera);
 
+                /*
                 initializeCellConnectionArray(CELL_CONNECTION_SIZE, worldCellConnectionCount);
                 printf("\ninitialized Cell connection array, errno = %d\n", errno);
                 for (int a = 0; a < cellCount; a++) {
@@ -107,23 +107,25 @@ int main(void)
                         );
                     }
                 }
+                */
 
                 for (int j = 0; j < cellCount; j++) {
                     DrawCircle(
-                        WORLD_INHABITED_CELLS[j].posX,
-                        WORLD_INHABITED_CELLS[j].posY,
-                        WORLD_INHABITED_CELLS[j].radius + 1,
+                        WORLD_INHABITED_CELLS[j].baseCellAttrs.posX,
+                        WORLD_INHABITED_CELLS[j].baseCellAttrs.posY,
+                        WORLD_INHABITED_CELLS[j].baseCellAttrs.radius + 1,
                         BLACK
                     );
 
                     DrawCircle(
-                        WORLD_INHABITED_CELLS[j].posX,
-                        WORLD_INHABITED_CELLS[j].posY,
-                        WORLD_INHABITED_CELLS[j].radius,
+                        WORLD_INHABITED_CELLS[j].baseCellAttrs.posX,
+                        WORLD_INHABITED_CELLS[j].baseCellAttrs.posY,
+                        WORLD_INHABITED_CELLS[j].baseCellAttrs.radius,
                         PURPLE
                     );
                 }
 
+                /*
                 // assuming a connection consists of 2 cells here
                 for (int i = 0; i < worldCellConnectionCount; i++) {
                     Cell a = *WORLD_CELL_CONNECTIONS->connectionArray[i][0];
@@ -136,6 +138,7 @@ int main(void)
                     printf("cell b (%d, %d)\n", endX, endY);
                     //DrawLine(startX, startY, endX, endY, RED);
                 }
+                */
 
                 freeCellConnectionArray(WORLD_CELL_CONNECTIONS);
                 printf("errno = %d", errno);

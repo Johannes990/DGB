@@ -8,7 +8,7 @@
 static int randIntInRange(int low, int high);
 static int intWrap(int input, int low, int high);
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY);
-static void initializeCell(WorldNode *node, int r, int idx);
+static void initializeCell(WorldNode *node, float r, int idx);
 
 
 // world variables
@@ -71,9 +71,9 @@ void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, fl
 
         int r = randIntInRange(1, maxCellRadius);
 
-        WORLD_INHABITED_CELLS[i].posX = node->posX;
-        WORLD_INHABITED_CELLS[i].posY = node->posY;
-        WORLD_INHABITED_CELLS[i].radius = r;
+        WORLD_INHABITED_CELLS[i].baseCellAttrs.posX = node->posX;
+        WORLD_INHABITED_CELLS[i].baseCellAttrs.posY = node->posY;
+        WORLD_INHABITED_CELLS[i].baseCellAttrs.radius = r;
         node->occupied = 1;
     }   
 }
@@ -110,7 +110,9 @@ void addConnectedCellGroup(const int cellIdxArray[], int cellCount) {
     // current version for testing purposes
     for (int i = 0; i < CELL_CONNECTION_SIZE; i++) {
         Cell cell = WORLD_INHABITED_CELLS[cellIdxArray[i]];
-        printf("found cell with coordinates (%d, %d) for adding into group\n", cell.posX, cell.posY);
+        printf("found cell with coordinates (%d, %d) for adding into group\n",
+                cell.baseCellAttrs.posX,
+                cell.baseCellAttrs.posY);
         connectedCells[i] = cell;
     }
 
@@ -142,9 +144,9 @@ static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY,
     posArray[1] = y;
 }
 
-static void initializeCell(WorldNode *node, int r, int idx) {
-    WORLD_INHABITED_CELLS[idx].posX = node->posX;
-    WORLD_INHABITED_CELLS[idx].posY = node->posY;
-    WORLD_INHABITED_CELLS[idx].radius = r;
+static void initializeCell(WorldNode *node, float r, int idx) {
+    WORLD_INHABITED_CELLS[idx].baseCellAttrs.posX = node->posX;
+    WORLD_INHABITED_CELLS[idx].baseCellAttrs.posY = node->posY;
+    WORLD_INHABITED_CELLS[idx].baseCellAttrs.radius = r;
     WORLD_INHABITED_CELLS[idx].connectionCount = 0;
 }
