@@ -33,7 +33,7 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
-    const int cellCount = 33;
+    const int cellCount = 20;
     const float minCellRadius = 5.0f;
     const float maxCellRadius = 15.0f;
     const int seed = 135;
@@ -42,15 +42,7 @@ int main(void)
     initializeWorldBaseGrid(WORLD_BASE_GRID);
     initializeCells(cellCount, minCellRadius, maxCellRadius, 1);
 
-
-    printCells(WORLD_INHABITED_CELLS);
-
-    addUndirectedConnection(&WORLD_INHABITED_CELLS[0], &WORLD_INHABITED_CELLS[1]);
-    addUndirectedConnection(&WORLD_INHABITED_CELLS[3], &WORLD_INHABITED_CELLS[4]);
-    addUndirectedConnection(&WORLD_INHABITED_CELLS[3], &WORLD_INHABITED_CELLS[10]);
-
-    printCells(WORLD_INHABITED_CELLS);
-
+    spawnRandomUndirectedConnections(20, WORLD_INHABITED_CELLS, cellCount);
 
     InitWindow(screenWidth, screenHeight, "");
 

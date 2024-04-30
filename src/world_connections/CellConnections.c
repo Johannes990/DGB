@@ -219,11 +219,11 @@ void spawnRandomUndirectedConnections(int spawnCount, Cell worldCells[], int cur
     }
 
     for (int i = 0; i < spawnCount; i++) {
-        int cell1Idx = randIntInRange(0, currentCellCount);
-        int cell2Idx = randIntInRange(0, currentCellCount);
+        int cell1Idx = randIntInRange(0, currentCellCount - 1);
+        int cell2Idx = randIntInRange(0, currentCellCount - 1);
 
         while (cell1Idx == cell2Idx) {
-            cell2Idx = randIntInRange(0, currentCellCount);
+            cell2Idx = randIntInRange(0, currentCellCount - 1);
         }
 
         addUndirectedConnection(&worldCells[cell1Idx], &worldCells[cell2Idx]);
@@ -242,11 +242,11 @@ void spawnRandomDirectedConnections(int spawnCount, Cell worldCells[], int curre
     }
 
     for (int i = 0; i < spawnCount; i++) {
-        int cell1Idx = randIntInRange(0, currentCellCount);
-        int cell2Idx = randIntInRange(0, currentCellCount);
+        int cell1Idx = randIntInRange(0, currentCellCount - 1);
+        int cell2Idx = randIntInRange(0, currentCellCount - 1);
 
         while (cell1Idx == cell2Idx) {
-            cell2Idx = randIntInRange(0, currentCellCount);
+            cell2Idx = randIntInRange(0, currentCellCount - 1);
         }
 
         addDirectedConnection(&worldCells[cell1Idx], worldCells[cell2Idx]);
