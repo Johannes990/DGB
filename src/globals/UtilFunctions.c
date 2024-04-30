@@ -1,5 +1,6 @@
 #include "UtilFunctions.h"
 #include <time.h>
+#include <stdlib.h>
 
 int randIntInRange(int low, int high) {
     int random = rand();
