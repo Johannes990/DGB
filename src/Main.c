@@ -16,6 +16,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "world/World.h"
+#include "./globals/UtilFunctions.h"
 #include <stdio.h>
 
 
