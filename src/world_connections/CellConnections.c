@@ -4,7 +4,7 @@
 #include "raylib.h"
 #include "CellConnections.h"
 
-
+/*
 // local declarations
 static void initializeCellConnectionsArray(CellConnections* cellConnections, int totalConnections, int cellsInConnection);
 static int findAvailablePosition(CellConnections* cellConnections);
@@ -164,4 +164,41 @@ static int findAvailablePosition(CellConnections* cellConnections) {
 
     errno = ERROR_CELLCONNECTIONS_STRUCT_MEMORY_FULL;
     return -1;
+}
+*/
+
+// local declarations
+int globalConnections = 0;
+
+
+// public functions
+void addUndirectedConnection(Cell a, Cell b) {
+    if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
+        errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
+        return;
+    }
+
+    if (a.connectionCount >= CELL_CONNECTION_SIZE || b.connectionCount >= CELL_CONNECTION_SIZE) {
+        errno = ERROR_CELLCONNECTIONS_CONNECTION_SIZE_OVER_MAX;
+        return;
+    }
+
+    a.cellConnections[a.connectionCount] = b.baseCellAttrs;
+    b.cellConnections[b.connectionCount] = a.baseCellAttrs;
+    globalConnections++;
+}
+
+void addDirectedConnection(Cell a, const Cell b) {
+    if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
+        errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
+        return;
+    }
+
+    if (a.connectionCount >= CELL_CONNECTION_SIZE) {
+        errno = ERROR_CELLCONNECTIONS_CONNECTION_SIZE_OVER_MAX;
+        return;
+    }
+
+    a.cellConnections[a.connectionCount] = b.baseCellAttrs;
+    globalConnections++;
 }
