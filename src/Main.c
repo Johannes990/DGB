@@ -116,10 +116,11 @@ int main(void)
                     }
                 }
 
+                // draw connection lines
                 for (int i = 0; i < cellCount; i++) {
                     Cell cell = WORLD_INHABITED_CELLS[i];
 
-                    // connection lines
+                    
                     for (int connIdx = 0; connIdx < cell.connectionCount; connIdx++) {
                         int startX = cell.baseCellAttrs.posX;
                         int startY = cell.baseCellAttrs.posY;
@@ -128,6 +129,11 @@ int main(void)
 
                         DrawLine(startX, startY, endX, endY, RED);
                     }
+                }
+
+                // draw cells
+                for (int i = 0; i < cellCount; i++) {
+                    Cell cell = WORLD_INHABITED_CELLS[i];
 
                     // boundaries
                     DrawCircle(
