@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "raylib.h"
 #include "CellConnections.h"
 
 /*
@@ -189,7 +188,6 @@ void addUndirectedConnection(Cell *a, Cell *b) {
     b->connectionCount++;
 
     globalConnections++;
-    printf("Global connections now %d\n", globalConnections);
 }
 
 void addDirectedConnection(Cell *a, const Cell b) {
@@ -207,6 +205,50 @@ void addDirectedConnection(Cell *a, const Cell b) {
     a->connectionCount++;
 
     globalConnections++;
-    printf("Global connections now %d\n", globalConnections);
+}
 
+void spawnRandomUndirectedConnections(int spawnCount, Cell worldCells[], int currentCellCount) {
+    if (globalConnections + spawnCount >= MAX_CELL_CONNECTION_COUNT) {
+        errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
+        return;
+    }
+
+    if (currentCellCount < 2) {
+        errno = ERROR_CELLCONNECTIONS_WORLD_CONTAINS_SINGULA_CELL;
+        return;
+    }
+
+    for (int i = 0; i < spawnCount; i++) {
+        int cell1Idx = randIntInRange(0, currentCellCount);
+        int cell2Idx = randIntInRange(0, currentCellCount);
+
+        while (cell1Idx == cell2Idx) {
+            cell2Idx = randIntInRange(0, currentCellCount);
+        }
+
+        addUndirectedConnection(&worldCells[cell1Idx], &worldCells[cell2Idx]);
+    }
+}
+
+void spawnRandomDirectedConnections(int spawnCount, Cell worldCells[], int currentCellCount) {
+    if (globalConnections + spawnCount >= MAX_CELL_CONNECTION_COUNT) {
+        errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
+        return;
+    }
+
+    if (currentCellCount < 2) {
+        errno = ERROR_CELLCONNECTIONS_WORLD_CONTAINS_SINGULA_CELL;
+        return;
+    }
+
+    for (int i = 0; i < spawnCount; i++) {
+        int cell1Idx = randIntInRange(0, currentCellCount);
+        int cell2Idx = randIntInRange(0, currentCellCount);
+
+        while (cell1Idx == cell2Idx) {
+            cell2Idx = randIntInRange(0, currentCellCount);
+        }
+
+        addDirectedConnection(&worldCells[cell1Idx], &worldCells[cell2Idx]);
+    }
 }

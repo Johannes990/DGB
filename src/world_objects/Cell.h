@@ -2,7 +2,7 @@
 #define CELL_H
 
 #include "BaseCell.h"
-#include "../globals/constants.h"
+#include "../globals/Constants.h"
 
 typedef struct Cell {
     BaseCell baseCellAttrs;

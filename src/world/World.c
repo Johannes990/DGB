@@ -1,12 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include "World.h"
 
 
 // local declarations
-static int randIntInRange(int low, int high);
-static int intWrap(int input, int low, int high);
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY);
 static void initializeCell(WorldNode *node, float r, int idx);
 
@@ -141,24 +138,7 @@ void addConnectedCellGroup(const int cellIdxArray[], int cellCount) {
 }
 */
 
-void seedRandomInt(int seed) {
-    srand(seed);
-}
-
-void seedRandomTime() {
-    srand((unsigned int)time(NULL));
-}
-
 // private function definitions
-static int randIntInRange(int low, int high) {
-    int random = rand();
-    return intWrap(random, low, high);
-}
-
-static int intWrap(int input, int low, int high) {
-    return (input % (high - low + 1)) + low;
-}
-
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY) {
     int x = randIntInRange(lowX, highX - 1);
     int y = randIntInRange(lowY, highY - 1);

@@ -5,7 +5,8 @@
 #include "../world_objects/Cell.h"
 #include "../world_connections/CellConnections.h"
 #include "../globals/Errors.h"
-#include "../globals/constants.h"
+#include "../globals/Constants.h"
+#include "../globals/UtilFunctions.h"
 #include <errno.h>
 
 
@@ -20,7 +21,5 @@ void initializeWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_
 void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
 //void initializeCellConnectionArray(int connectionSize, int connectionCount);
 //void addConnectedCellGroup(const int cellIdxArray[], int cellCount);
-void seedRandomInt(int seed);
-void seedRandomTime();
 
 #endif
