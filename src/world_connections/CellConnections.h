@@ -18,7 +18,7 @@ void addConnection(CellConnections* CellConnections, Cell connectedCells[]);
 void printCellConnections(CellConnections* cellConnections);
 */
 
-void addUndirectedConnection(Cell a, Cell b);
-void addDirectedConnection(Cell a, const Cell b);
+void addUndirectedConnection(Cell *a, Cell *b);
+void addDirectedConnection(Cell *a, const Cell b);
 
 #endif

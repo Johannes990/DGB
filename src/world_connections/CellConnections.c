@@ -172,33 +172,41 @@ int globalConnections = 0;
 
 
 // public functions
-void addUndirectedConnection(Cell a, Cell b) {
+void addUndirectedConnection(Cell *a, Cell *b) {
     if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return;
     }
 
-    if (a.connectionCount >= CELL_CONNECTION_SIZE || b.connectionCount >= CELL_CONNECTION_SIZE) {
+    if (a->connectionCount >= CELL_CONNECTION_SIZE || b->connectionCount >= CELL_CONNECTION_SIZE) {
         errno = ERROR_CELLCONNECTIONS_CONNECTION_SIZE_OVER_MAX;
         return;
     }
 
-    a.cellConnections[a.connectionCount] = b.baseCellAttrs;
-    b.cellConnections[b.connectionCount] = a.baseCellAttrs;
+    a->cellConnections[a->connectionCount] = b->baseCellAttrs;
+    a->connectionCount++;
+    b->cellConnections[b->connectionCount] = a->baseCellAttrs;
+    b->connectionCount++;
+
     globalConnections++;
+    printf("Global connections now %d\n", globalConnections);
 }
 
-void addDirectedConnection(Cell a, const Cell b) {
+void addDirectedConnection(Cell *a, const Cell b) {
     if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return;
     }
 
-    if (a.connectionCount >= CELL_CONNECTION_SIZE) {
+    if (a->connectionCount >= CELL_CONNECTION_SIZE) {
         errno = ERROR_CELLCONNECTIONS_CONNECTION_SIZE_OVER_MAX;
         return;
     }
 
-    a.cellConnections[a.connectionCount] = b.baseCellAttrs;
+    a->cellConnections[a->connectionCount] = b.baseCellAttrs;
+    a->connectionCount++;
+
     globalConnections++;
+    printf("Global connections now %d\n", globalConnections);
+
 }

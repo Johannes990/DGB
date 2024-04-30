@@ -32,17 +32,24 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
-    const int cellCount = 5;
+    const int cellCount = 33;
     const float minCellRadius = 5.0f;
     const float maxCellRadius = 15.0f;
     const int seed = 135;
-    const int worldCellConnectionCount = 1;
 
     seedRandomTime();
     initializeWorldBaseGrid(WORLD_BASE_GRID);
     initializeCells(cellCount, minCellRadius, maxCellRadius, 1);
-    printf("\ninitialized Cells. errno = %d\n", errno);
-    
+
+
+    printCells(WORLD_INHABITED_CELLS);
+
+    addUndirectedConnection(&WORLD_INHABITED_CELLS[0], &WORLD_INHABITED_CELLS[1]);
+    addUndirectedConnection(&WORLD_INHABITED_CELLS[3], &WORLD_INHABITED_CELLS[4]);
+    addUndirectedConnection(&WORLD_INHABITED_CELLS[3], &WORLD_INHABITED_CELLS[10]);
+
+    printCells(WORLD_INHABITED_CELLS);
+
 
     InitWindow(screenWidth, screenHeight, "");
 
@@ -96,6 +103,7 @@ int main(void)
 
                 addConnectedCellGroup(conn1, CELL_CONNECTION_SIZE);
                 //printCellConnections(WORLD_CELL_CONNECTIONS);
+                */
 
                 for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
                     for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
@@ -107,23 +115,38 @@ int main(void)
                         );
                     }
                 }
-                */
 
-                for (int j = 0; j < cellCount; j++) {
+                for (int i = 0; i < cellCount; i++) {
+                    Cell cell = WORLD_INHABITED_CELLS[i];
+
+                    // connection lines
+                    for (int connIdx = 0; connIdx < cell.connectionCount; connIdx++) {
+                        int startX = cell.baseCellAttrs.posX;
+                        int startY = cell.baseCellAttrs.posY;
+                        int endX = cell.cellConnections[connIdx].posX;
+                        int endY = cell.cellConnections[connIdx].posY;
+
+                        DrawLine(startX, startY, endX, endY, RED);
+                    }
+
+                    // boundaries
                     DrawCircle(
-                        WORLD_INHABITED_CELLS[j].baseCellAttrs.posX,
-                        WORLD_INHABITED_CELLS[j].baseCellAttrs.posY,
-                        WORLD_INHABITED_CELLS[j].baseCellAttrs.radius + 1,
+                        cell.baseCellAttrs.posX,
+                        cell.baseCellAttrs.posY,
+                        cell.baseCellAttrs.radius + 1,
                         BLACK
                     );
 
+                    // circle fills
                     DrawCircle(
-                        WORLD_INHABITED_CELLS[j].baseCellAttrs.posX,
-                        WORLD_INHABITED_CELLS[j].baseCellAttrs.posY,
-                        WORLD_INHABITED_CELLS[j].baseCellAttrs.radius,
+                        cell.baseCellAttrs.posX,
+                        cell.baseCellAttrs.posY,
+                        cell.baseCellAttrs.radius,
                         PURPLE
                     );
                 }
+
+                
 
                 /*
                 // assuming a connection consists of 2 cells here

@@ -14,16 +14,33 @@ static void initializeCell(WorldNode *node, float r, int idx);
 // world variables
 WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
-CellConnections* WORLD_CELL_CONNECTIONS;
-int worldCellConnectionCount;
+int globalCells = 0;
+//CellConnections* WORLD_CELL_CONNECTIONS;
 
 
 // public function definitions
 void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     for (int i = 0; i < WORLD_NODECOUNT_X ; i++) {
         for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
-            printf("Node[%d][%d]\tx: %d\ty: %d\toccupied: %d\n",i, j, world[i][j].posX, world[i][j].posY, world[i][j].occupied);
+            printf("Node[%d][%d]\tx: %d\ty: %d\toccupied: %d\n",
+                    i,
+                    j,
+                    world[i][j].posX,
+                    world[i][j].posY,
+                    world[i][j].occupied);
         }
+    }
+}
+
+void printCells(Cell worldCells[WORLD_MAX_ENTITY_COUNT]) {
+    for (int i = 0; i < globalCells; i++) {
+        Cell cell = WORLD_INHABITED_CELLS[i];
+        printf("Cell[%d]\t:x %d\ty: %d\tradius: %f\tconnections: %d\n",
+                i,
+                cell.baseCellAttrs.posX,
+                cell.baseCellAttrs.posY,
+                cell.baseCellAttrs.radius,
+                cell.connectionCount);
     }
 }
 
@@ -74,10 +91,14 @@ void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, fl
         WORLD_INHABITED_CELLS[i].baseCellAttrs.posX = node->posX;
         WORLD_INHABITED_CELLS[i].baseCellAttrs.posY = node->posY;
         WORLD_INHABITED_CELLS[i].baseCellAttrs.radius = r;
+        WORLD_INHABITED_CELLS[i].connectionCount = 0;
         node->occupied = 1;
-    }   
+    }
+
+    globalCells = cellCount;
 }
 
+/*
 void initializeCellConnectionArray(int connectionSize, int connectionCount) {
     worldCellConnectionCount = connectionCount;
     WORLD_CELL_CONNECTIONS = createCellConnectionArray(connectionSize, connectionCount);
@@ -118,6 +139,7 @@ void addConnectedCellGroup(const int cellIdxArray[], int cellCount) {
 
     addConnection(WORLD_CELL_CONNECTIONS, connectedCells);
 }
+*/
 
 void seedRandomInt(int seed) {
     srand(seed);
