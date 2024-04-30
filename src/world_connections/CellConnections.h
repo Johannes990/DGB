@@ -3,6 +3,7 @@
 
 #include "../world_objects/Cell.h"
 #include "../globals/constants.h"
+#include "../globals/Errors.h"
 
 
 typedef struct CellConnections {

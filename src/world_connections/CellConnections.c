@@ -3,7 +3,7 @@
 #include <errno.h>
 #include "raylib.h"
 #include "CellConnections.h"
-#include "../error_handling/Errors.h"
+
 
 // local declarations
 static void initializeCellConnectionsArray(CellConnections* cellConnections, int totalConnections, int cellsInConnection);
@@ -135,8 +135,8 @@ void printCellConnections(CellConnections* cellConnections) {
     for (int i = 0; i < connections; i++) {
         Cell cell1 = *cellConnections->connectionArray[i][0];
         Cell cell2 = *cellConnections->connectionArray[i][1];
-        printf("cell1 x: %d, y: %d", cell1.posX, cell1.posY);
-        printf("cell2 x: %d, y: %d\n", cell2.posX, cell2. posY);
+        printf("cell1 x: %d, y: %d", cell1.baseCellAttrs.posX, cell1.baseCellAttrs.posY);
+        printf("cell2 x: %d, y: %d\n", cell2.baseCellAttrs.posX, cell2.baseCellAttrs.posY);
 
         //DrawLine(cell1.posX, cell1.posY, cell2.posX, cell2.posY, RED);
     }
