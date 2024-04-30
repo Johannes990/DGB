@@ -138,10 +138,11 @@ int main(void)
                     printf("cell b (%d, %d)\n", endX, endY);
                     //DrawLine(startX, startY, endX, endY, RED);
                 }
-                */
+                
 
                 freeCellConnectionArray(WORLD_CELL_CONNECTIONS);
                 printf("errno = %d", errno);
+                */
 
             EndMode2D();
 
