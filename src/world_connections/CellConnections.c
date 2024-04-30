@@ -249,6 +249,6 @@ void spawnRandomDirectedConnections(int spawnCount, Cell worldCells[], int curre
             cell2Idx = randIntInRange(0, currentCellCount);
         }
 
-        addDirectedConnection(&worldCells[cell1Idx], &worldCells[cell2Idx]);
+        addDirectedConnection(&worldCells[cell1Idx], worldCells[cell2Idx]);
     }
 }
