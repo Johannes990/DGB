@@ -10,4 +10,8 @@ typedef struct Cell {
     int connectionCount;
 } Cell;
 
+
+// function declarations
+float calculateCellRadius(Cell* cell);
+
 #endif

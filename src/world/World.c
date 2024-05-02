@@ -82,12 +82,7 @@ void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, fl
             printf("Node[%d][%d], occupancy: %d\n", cellPos[0], cellPos[1], node->occupied);
         }
 
-        int r = randIntInRange(1, maxCellRadius);
-
-        WORLD_INHABITED_CELLS[i].baseCellAttrs.posX = node->posX;
-        WORLD_INHABITED_CELLS[i].baseCellAttrs.posY = node->posY;
-        WORLD_INHABITED_CELLS[i].baseCellAttrs.radius = r;
-        WORLD_INHABITED_CELLS[i].connectionCount = 0;
+        initializeCellAtIdx(node, 5.0f, i);
         node->occupied = 1;
     }
 
@@ -102,7 +97,7 @@ static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY,
     posArray[1] = y;
 }
 
-static void initializeCell(WorldNode *node, float r, int idx) {
+static void initializeCellAtIdx(WorldNode *node, float r, int idx) {
     WORLD_INHABITED_CELLS[idx].baseCellAttrs.posX = node->posX;
     WORLD_INHABITED_CELLS[idx].baseCellAttrs.posY = node->posY;
     WORLD_INHABITED_CELLS[idx].baseCellAttrs.radius = r;
