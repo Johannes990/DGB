@@ -3,8 +3,13 @@
 #include <math.h>
 
 
+static float radiusFunction1(int cellConnectionCount); 
+
 float calculateCellRadius(Cell* cell) {
-    int connections = cell.connectionCount;
-    float radius = M_PI * sqrt(connections);
-    return radius;
+    return radiusFunction1(cell->connectionCount)
+}
+
+// private functions
+static float radiusFunction1(int cellConnectionCount) {
+    float radius = 5.0f * sqrt(cellConnectionCount);
 }

@@ -33,7 +33,7 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
-    const int cellCount = 20;
+    const int cellCount = 15;
     const float minCellRadius = 5.0f;
     const float maxCellRadius = 15.0f;
     const int seed = 135;
@@ -42,7 +42,7 @@ int main(void)
     initializeWorldBaseGrid(WORLD_BASE_GRID);
     initializeCells(cellCount, minCellRadius, maxCellRadius, 1);
 
-    spawnRandomUndirectedConnections(20, WORLD_INHABITED_CELLS, cellCount);
+    spawnRandomUndirectedConnections(25, WORLD_INHABITED_CELLS, cellCount);
 
     InitWindow(screenWidth, screenHeight, "");
 
@@ -109,6 +109,8 @@ int main(void)
                         DrawLine(startX, startY, endX, endY, RED);
                     }
                 }
+
+                recalculateCellRadii();
 
                 // draw cells
                 for (int i = 0; i < cellCount; i++) {

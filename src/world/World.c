@@ -4,7 +4,7 @@
 
 // local declarations
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY);
-static void initializeCell(WorldNode *node, float r, int idx);
+static void initializeCellAtIdx(WorldNode *node, float r, int idx);
 
 
 // world variables
@@ -87,6 +87,22 @@ void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, fl
     }
 
     globalCells = cellCount;
+}
+
+void recalculateCellRadii() {
+    if (globalCells == 0) {
+        errno = ERROR_WORLD_NO_INHABITED_CELLS;
+        return;
+    }
+
+    for (int i = 0; i < globalCells; i++) {
+        Cell *cell = &WORLD_INHABITED_CELLS[i];
+        if (cell->connectionCount == 0) {
+            continue;
+        }
+        float radius = calculateCellRadius(cell);
+        cell->baseCellAttrs.radius = radius;
+    }
 }
 
 // private function definitions

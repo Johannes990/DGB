@@ -19,5 +19,6 @@ void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void printCells(Cell worldCells[]);
 void initializeWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
+void recalculateCellRadii();
 
 #endif
