@@ -214,7 +214,7 @@ void spawnRandomUndirectedConnections(int spawnCount, Cell worldCells[], int cur
     }
 
     if (currentCellCount < 2) {
-        errno = ERROR_CELLCONNECTIONS_WORLD_CONTAINS_SINGULA_CELL;
+        errno = ERROR_CELLCONNECTIONS_WORLD_CONTAINS_SINGULAR_CELL;
         return;
     }
 
