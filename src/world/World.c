@@ -6,13 +6,10 @@
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY);
 static void initializeCellAtIdx(WorldNode *node, float r, int idx);
 
-
 // world variables
 WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 int globalCells = 0;
-//CellConnections* WORLD_CELL_CONNECTIONS;
-
 
 // public function definitions
 void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
