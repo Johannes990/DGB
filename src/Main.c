@@ -84,20 +84,6 @@ int main(void)
 
             BeginMode2D(camera);
 
-                /*
-                initializeCellConnectionArray(CELL_CONNECTION_SIZE, worldCellConnectionCount);
-                printf("\ninitialized Cell connection array, errno = %d\n", errno);
-                for (int a = 0; a < cellCount; a++) {
-                    Cell worldCell = WORLD_INHABITED_CELLS[a];
-                    printf("cell [%d] pos x: %d, pos y: %d\n", a, worldCell.posX, worldCell.posY);
-                }
-                // add our 5 connections
-                const int conn1[] = {1, 2};
-
-                addConnectedCellGroup(conn1, CELL_CONNECTION_SIZE);
-                //printCellConnections(WORLD_CELL_CONNECTIONS);
-                */
-
                 for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
                     for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
                         DrawCircle(
@@ -144,27 +130,6 @@ int main(void)
                         PURPLE
                     );
                 }
-
-                
-
-                /*
-                // assuming a connection consists of 2 cells here
-                for (int i = 0; i < worldCellConnectionCount; i++) {
-                    Cell a = *WORLD_CELL_CONNECTIONS->connectionArray[i][0];
-                    Cell b = *WORLD_CELL_CONNECTIONS->connectionArray[i][1];
-                    int startX = a.posX;
-                    int startY = a.posY;
-                    int endX = b.posX;
-                    int endY = b.posY;
-                    printf("cell a (%d, %d)\n", startX, startY);
-                    printf("cell b (%d, %d)\n", endX, endY);
-                    //DrawLine(startX, startY, endX, endY, RED);
-                }
-                
-
-                freeCellConnectionArray(WORLD_CELL_CONNECTIONS);
-                printf("errno = %d", errno);
-                */
 
             EndMode2D();
 

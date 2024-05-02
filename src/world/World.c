@@ -94,49 +94,6 @@ void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, fl
     globalCells = cellCount;
 }
 
-/*
-void initializeCellConnectionArray(int connectionSize, int connectionCount) {
-    worldCellConnectionCount = connectionCount;
-    WORLD_CELL_CONNECTIONS = createCellConnectionArray(connectionSize, connectionCount);
-}
-
-void addConnectedCellGroup(const int cellIdxArray[], int cellCount) {
-    if (WORLD_INHABITED_CELLS == NULL) {
-        errno = ERROR_WORLD_INHABITED_CELLS_UNALLOCATED;
-        return;
-    }
-
-    if (cellIdxArray == NULL) {
-        errno = ERROR_GLOBAL_NULLPOINTER_ARGUMENT;
-        return;
-    }
-
-    if (WORLD_CELL_CONNECTIONS == NULL) {
-        errno = ERROR_CELLCONNECTIONS_STRUCT_MEMORY_UNALLOCATED;
-        return;
-    }
-
-    if (cellCount != CELL_CONNECTION_SIZE) {
-        errno = ERROR_WORLD_PROPOSED_CELL_CONNECTION_SIZE_MISMATCH;
-        return;
-    }
-
-    Cell connectedCells[CELL_CONNECTION_SIZE] = {0};
-
-    // this function needs error handling as well
-    // current version for testing purposes
-    for (int i = 0; i < CELL_CONNECTION_SIZE; i++) {
-        Cell cell = WORLD_INHABITED_CELLS[cellIdxArray[i]];
-        printf("found cell with coordinates (%d, %d) for adding into group\n",
-                cell.baseCellAttrs.posX,
-                cell.baseCellAttrs.posY);
-        connectedCells[i] = cell;
-    }
-
-    addConnection(WORLD_CELL_CONNECTIONS, connectedCells);
-}
-*/
-
 // private function definitions
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY) {
     int x = randIntInRange(lowX, highX - 1);
