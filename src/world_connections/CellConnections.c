@@ -9,6 +9,26 @@ int globalConnections = 0;
 
 
 // public functions
+void addRandomUndirectedConnection(int cellCount) {
+    if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
+        errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
+        return;
+    }
+
+    Cell* a = &WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
+    Cell* b = &WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
+
+    while (a->connectionCount >= CELL_CONNECTION_SIZE) {
+        a = &WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
+    }
+
+    while (b->connectionCount >= CELL_CONNECTION_SIZE) {
+        b = &WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
+    }
+
+    addUndirectedConnection(a, b);
+}
+
 void addUndirectedConnection(Cell *a, Cell *b) {
     if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
@@ -26,6 +46,23 @@ void addUndirectedConnection(Cell *a, Cell *b) {
     b->connectionCount++;
 
     globalConnections++;
+}
+
+void addRandomDirectedConnection(int cellCount) {
+    if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
+        errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
+        return;
+    }
+
+    Cell* a = &WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
+
+    while (a->connectionCount >= CELL_CONNECTION_SIZE) {
+        a = &WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
+    }
+
+    Cell b = WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
+
+    addDirectedConnection(a, b);
 }
 
 void addDirectedConnection(Cell *a, const Cell b) {

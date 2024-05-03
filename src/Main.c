@@ -133,6 +133,10 @@ int main(void)
                     );
                 }
 
+                if (IsKeyPressed(KEY_E)) {
+                    addRandomUndirectedConnection(cellCount);
+                }
+
             EndMode2D();
 
             DrawText("World node positions here", 20, 20, 10, BLACK);
