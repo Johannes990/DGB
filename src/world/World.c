@@ -37,6 +37,8 @@ void printCells(Cell worldCells[WORLD_MAX_ENTITY_COUNT]) {
     }
 }
 
+
+
 void initializeWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
         for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
@@ -97,6 +99,7 @@ void recalculateCellRadii() {
         if (cell->connectionCount == 0) {
             continue;
         }
+
         float radius = calculateCellRadius(cell);
         cell->baseCellAttrs.radius = radius;
     }
