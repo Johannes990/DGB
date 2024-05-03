@@ -33,16 +33,17 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = WORLD_WIDTH;
     const int screenHeight = WORLD_HEIGHT;
-    const int cellCount = 15;
+    const int cellCount = 25;
     const float minCellRadius = 5.0f;
     const float maxCellRadius = 15.0f;
     const int seed = 135;
+    int connectionIdx = 0;
 
     seedRandomTime();
     initializeWorldBaseGrid(WORLD_BASE_GRID);
     initializeCells(cellCount, minCellRadius, maxCellRadius, 1);
 
-    spawnRandomUndirectedConnections(25, WORLD_INHABITED_CELLS, cellCount);
+    //spawnRandomUndirectedConnections(3, WORLD_INHABITED_CELLS, cellCount);
 
     InitWindow(screenWidth, screenHeight, "");
 
@@ -133,8 +134,26 @@ int main(void)
                     );
                 }
 
+                if (IsKeyPressed(KEY_W)) {
+                    Cell* a = &WORLD_INHABITED_CELLS[connectionIdx];
+                    Cell* b = &WORLD_INHABITED_CELLS[connectionIdx + 1];
+                    addUndirectedConnection(a, b);
+                    connectionIdx++;
+                }
+
+                if (IsKeyPressed(KEY_S)) {
+                    Cell* a = &WORLD_INHABITED_CELLS[connectionIdx - 1];
+                    Cell* b = &WORLD_INHABITED_CELLS[connectionIdx];
+                    removeUndirectedConnection(a, b);
+                    connectionIdx--;
+                }
+
                 if (IsKeyPressed(KEY_E)) {
                     addRandomUndirectedConnection(cellCount);
+                }
+
+                if (IsKeyPressed(KEY_D)) {
+                    addRandomDirectedConnection(cellCount);
                 }
 
             EndMode2D();

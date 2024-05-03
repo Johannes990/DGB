@@ -8,10 +8,13 @@
 #include "../world/World.h"
 
 
-void addRandomUndirectedConnection(int cellCount);
+
 void addUndirectedConnection(Cell *a, Cell *b);
-void addRandomDirectedConnection(int cellCount);
+void addRandomUndirectedConnection(int cellCount);
+void removeUndirectedConnection(Cell* a, Cell* b);
 void addDirectedConnection(Cell *a, const Cell b);
+void addRandomDirectedConnection(int cellCount);
+void removeDirectedConnection(Cell *a, const Cell b);
 void spawnRandomUndirectedConnections(int spawnCount, Cell worldCells[], int currentCellCount);
 void spawnRandomDirectedConnections(int spawnCount, Cell worldCells[], int currentCellCount);
 

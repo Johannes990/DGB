@@ -95,6 +95,7 @@ void recalculateCellRadii() {
 
     for (int i = 0; i < globalCells; i++) {
         Cell *cell = &WORLD_INHABITED_CELLS[i];
+        
         if (cell->connectionCount == 0) {
             continue;
         }

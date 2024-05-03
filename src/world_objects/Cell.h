@@ -3,6 +3,8 @@
 
 #include "BaseCell.h"
 #include "../globals/Constants.h"
+#include "../globals/Errors.h"
+
 
 typedef struct Cell {
     BaseCell baseCellAttrs;
@@ -13,5 +15,7 @@ typedef struct Cell {
 
 // function declarations
 float calculateCellRadius(Cell* cell);
+int getConnectedCellIdx(const Cell* a, const Cell* b);
+void deleteConnectionBaseCellAtIdx(Cell* a, const int idx);
 
 #endif
