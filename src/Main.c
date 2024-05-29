@@ -98,25 +98,25 @@ int main(void)
                     }
                 }
 
-                // draw cells
-                for (int i = 0; i < cellCount; i++) {
-                    Cell cell = WORLD_INHABITED_CELLS[i];
+                // handle user input
+                if (IsKeyPressed(KEY_W)) {
+                    printf("\nAdding new undirected connection");
+                    addRandomUndirectedConnection(cellCount);
+                }
 
-                    // boundaries
-                    DrawCircle(
-                        cell.baseCellAttrs.posX,
-                        cell.baseCellAttrs.posY,
-                        cell.baseCellAttrs.radius + 1,
-                        BLACK
-                    );
+                if (IsKeyPressed(KEY_S)) {
+                    printf("\nDeleting last undirected connection");
+                    deleteLastUndirectedConnection();
+                }
 
-                    // circle fills
-                    DrawCircle(
-                        cell.baseCellAttrs.posX,
-                        cell.baseCellAttrs.posY,
-                        cell.baseCellAttrs.radius,
-                        PURPLE
-                    );
+                if (IsKeyPressed(KEY_E)) {
+                    printf("\nAdding new directed connection");
+                    addRandomDirectedConnection(cellCount);
+                }
+
+                if (IsKeyPressed(KEY_D)) {
+                    printf("\nDeleting last directed connection");
+                    deleteLastDirectedConnection(cellCount);
                 }
 
                 // draw connections
@@ -139,25 +139,25 @@ int main(void)
                 // handle connection dynamics
                 recalculateCellRadii();
 
-                // handle user input
-                if (IsKeyPressed(KEY_W)) {
-                    printf("\nAdding new undirected connection");
-                    addRandomUndirectedConnection(cellCount);
-                }
+                // draw cells
+                for (int i = 0; i < cellCount; i++) {
+                    Cell cell = WORLD_INHABITED_CELLS[i];
 
-                if (IsKeyPressed(KEY_S)) {
-                    printf("\nDeleting last undirected connection");
-                    deleteLastUndirectedConnection();
-                }
+                    // boundaries
+                    DrawCircle(
+                        cell.baseCellAttrs.posX,
+                        cell.baseCellAttrs.posY,
+                        cell.baseCellAttrs.radius + 1,
+                        BLACK
+                    );
 
-                if (IsKeyPressed(KEY_E)) {
-                    printf("\nAdding new directed connection");
-                    addRandomDirectedConnection(cellCount);
-                }
-
-                if (IsKeyPressed(KEY_D)) {
-                    printf("\nDeleting last directed connection");
-                    deleteLastDirectedConnection(cellCount);
+                    // circle fills
+                    DrawCircle(
+                        cell.baseCellAttrs.posX,
+                        cell.baseCellAttrs.posY,
+                        cell.baseCellAttrs.radius,
+                        PURPLE
+                    );
                 }
 
             EndMode2D();
