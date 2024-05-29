@@ -2,16 +2,16 @@
 #include "World.h"
 
 
-// local declarations
+//--------------------------------local declarations---------------------------
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY);
 static void initializeCellAtIdx(WorldNode *node, float r, int idx);
 
-// world variables
+//--------------------------------world variables------------------------------
 WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
 Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 int globalCells = 0;
 
-// public function definitions
+//--------------------------------public function definitions------------------
 void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
     for (int i = 0; i < WORLD_NODECOUNT_X ; i++) {
         for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
@@ -105,7 +105,7 @@ void recalculateCellRadii() {
     }
 }
 
-// private function definitions
+//--------------------------------private function definitions-----------------
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY) {
     int x = randIntInRange(lowX, highX - 1);
     int y = randIntInRange(lowY, highY - 1);

@@ -10,11 +10,11 @@
 #include <errno.h>
 
 
-// world objects
+//--------------------------------world objects--------------------------------
 extern Cell WORLD_INHABITED_CELLS[WORLD_MAX_ENTITY_COUNT];
 extern WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]; 
 
-// function declarations
+//--------------------------------function declarations------------------------
 void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void printCells(Cell worldCells[]);
 void initializeWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);

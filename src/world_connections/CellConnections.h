@@ -15,11 +15,9 @@ extern int globalDirectedConnections;
 
 void addUndirectedConnection(Cell *a, Cell *b);
 void addRandomUndirectedConnection(int cellCount);
-//void deleteUndirectedConnection(Cell* a, Cell* b);
 void deleteLastUndirectedConnection();
 void addDirectedConnection(Cell *a, const Cell *b);
 void addRandomDirectedConnection(int cellCount);
-//void deleteDirectedConnection(Cell *a, const Cell b);
 void spawnRandomUndirectedConnections(int spawnCount, Cell worldCells[], int currentCellCount);
 void spawnRandomDirectedConnections(int spawnCount, Cell worldCells[], int currentCellCount);
 void deleteLastDirectedConnection();

@@ -1,20 +1,20 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-// Global error codes
+//--------------------------------Global error codes---------------------------
 #define ERROR_GLOBAL_NULLPOINTER_ARGUMENT 100
 
-// World error codes
+//--------------------------------World error codes----------------------------
 #define ERROR_WORLD_CELL_LIMIT_EXCEEDED 200
 #define ERROR_WORLD_PROPOSED_CELL_CONNECTION_SIZE_MISMATCH 201
 #define ERROR_WORLD_INHABITED_CELLS_UNALLOCATED 202
 #define ERROR_WORLD_NO_INHABITED_CELLS 203
 
-// Cell error codes
+//--------------------------------Cell error codes-----------------------------
 #define ERROR_CELL_CELL_RADIUS_UNDER_MIN 301
 #define ERROR_CELL_CELL_RADIUS_OVER_MAX 302
 
-// CellConnections error codes
+//--------------------------------CellConnections error codes------------------
 #define ERROR_CELLCONNECTIONS_STRUCT_MEMORY_UNALLOCATED 401
 #define ERROR_CELLCONNECTIONS_CELL_POINTER_ARRAY_MEMORY_UNALLOCATED 402
 #define ERROR_CELLCONNECTIONS_CELL_ARRAY_MEMORY_UNALLOCATED 403

@@ -13,7 +13,7 @@ typedef struct Cell {
 } Cell;
 
 
-// function declarations
+//--------------------------------function declarations------------------------
 float calculateCellRadius(Cell* cell);
 int getConnectedCellIdx(const Cell* a, const Cell* b);
 void deleteConnectionBaseCellAtIdx(Cell* a, const int idx);
