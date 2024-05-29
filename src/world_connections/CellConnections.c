@@ -4,13 +4,38 @@
 #include "CellConnections.h"
 
 
-// local declarations
-int globalConnections = 0;
+//--------------------------------local declarations---------------------------
+int globalUndirectedConnections = 0;
+int globalDirectedConnections = 0;
+WorldCellConnection undirectedConnections[MAX_CELL_CONNECTION_COUNT];
+WorldCellConnection directedConnections[MAX_CELL_CONNECTION_COUNT];
 
+//--------------------------------local functions------------------------------
+void deleteUndirectedConnection(Cell* a, Cell* b) {
+    int connIdxForCellA = getConnectedCellIdx(a, b);
+    int connIdxForCellB = getConnectedCellIdx(b, a);
 
-// public functions
+    if (connIdxForCellA == -1 || connIdxForCellB == -1) {
+        return;
+    }
+    
+    deleteConnectionBaseCellAtIdx(a, connIdxForCellA);
+    deleteConnectionBaseCellAtIdx(b, connIdxForCellB);
+}
+
+void deleteDirectedConnection(Cell* a, const Cell b) {
+    int connIdxForCellA = getConnectedCellIdx(a, &b);
+
+    if (connIdxForCellA == -1) {
+        return;
+    }
+
+    deleteConnectionBaseCellAtIdx(a, connIdxForCellA);
+}
+
+//--------------------------------public functions-----------------------------
 void addUndirectedConnection(Cell *a, Cell *b) {
-    if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
+    if ((globalUndirectedConnections + globalDirectedConnections) >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return;
     }
@@ -25,11 +50,14 @@ void addUndirectedConnection(Cell *a, Cell *b) {
     b->cellConnections[b->connectionCount] = a->baseCellAttrs;
     b->connectionCount++;
 
-    globalConnections++;
+    WorldCellConnection connection = { a, b };
+    undirectedConnections[globalUndirectedConnections] = connection;
+
+    globalUndirectedConnections++;
 }
 
 void addRandomUndirectedConnection(int cellCount) {
-    if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
+    if ((globalUndirectedConnections + globalDirectedConnections) >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return;
     }
@@ -48,20 +76,16 @@ void addRandomUndirectedConnection(int cellCount) {
     addUndirectedConnection(a, b);
 }
 
-void removeUndirectedConnection(Cell* a, Cell* b) {
-    int connIdxForCellA = getConnectedCellIdx(a, b);
-    int connIdxForCellB = getConnectedCellIdx(b, a);
-
-    if (connIdxForCellA == -1 || connIdxForCellB == -1) {
-        return;
+void deleteLastUndirectedConnection() {
+    if (globalUndirectedConnections > 0) {
+        WorldCellConnection lastUndirectedConnection = undirectedConnections[globalUndirectedConnections - 1];
+        deleteUndirectedConnection(lastUndirectedConnection.start, lastUndirectedConnection.end);
+        globalUndirectedConnections--;
     }
-    
-    deleteConnectionBaseCellAtIdx(a, connIdxForCellA);
-    deleteConnectionBaseCellAtIdx(b, connIdxForCellB);
 }
 
-void addDirectedConnection(Cell *a, const Cell b) {
-    if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
+void addDirectedConnection(Cell *a, const Cell *b) {
+    if ((globalUndirectedConnections + globalDirectedConnections) >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return;
     }
@@ -71,14 +95,17 @@ void addDirectedConnection(Cell *a, const Cell b) {
         return;
     }
 
-    a->cellConnections[a->connectionCount] = b.baseCellAttrs;
+    a->cellConnections[a->connectionCount] = b->baseCellAttrs;
     a->connectionCount++;
 
-    globalConnections++;
+    WorldCellConnection connection = { a, b };
+    directedConnections[globalDirectedConnections] = connection;
+
+    globalDirectedConnections++;
 }
 
 void addRandomDirectedConnection(int cellCount) {
-    if (globalConnections >= MAX_CELL_CONNECTION_COUNT) {
+    if ((globalUndirectedConnections + globalDirectedConnections) >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return;
     }
@@ -89,23 +116,21 @@ void addRandomDirectedConnection(int cellCount) {
         a = &WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
     }
 
-    Cell b = WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
+    Cell* b = &WORLD_INHABITED_CELLS[randIntInRange(0, cellCount - 1)];
 
     addDirectedConnection(a, b);
 }
 
-void removeDirectedConnection(Cell* a, const Cell b) {
-    int connIdxForCellA = getConnectedCellIdx(a, &b);
-
-    if (connIdxForCellA == -1) {
-        return;
+void deleteLastDirectedConnection() {
+    if (globalDirectedConnections > 0) {
+        WorldCellConnection lastDirectedConnection = directedConnections[globalDirectedConnections - 1];
+        deleteDirectedConnection(lastDirectedConnection.start, *lastDirectedConnection.end);
+        globalDirectedConnections--;
     }
-
-    deleteConnectionBaseCellAtIdx(a, connIdxForCellA);
 }
 
 void spawnRandomUndirectedConnections(int spawnCount, Cell worldCells[], int currentCellCount) {
-    if (globalConnections + spawnCount >= MAX_CELL_CONNECTION_COUNT) {
+    if ((globalUndirectedConnections + globalDirectedConnections + spawnCount) >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return;
     }
@@ -128,7 +153,7 @@ void spawnRandomUndirectedConnections(int spawnCount, Cell worldCells[], int cur
 }
 
 void spawnRandomDirectedConnections(int spawnCount, Cell worldCells[], int currentCellCount) {
-    if (globalConnections + spawnCount >= MAX_CELL_CONNECTION_COUNT) {
+    if ((globalUndirectedConnections = globalDirectedConnections + spawnCount) >= MAX_CELL_CONNECTION_COUNT) {
         errno = ERROR_CELLCONNECTIONS_CONNECTIONS_OVER_MAX;
         return;
     }
@@ -146,6 +171,6 @@ void spawnRandomDirectedConnections(int spawnCount, Cell worldCells[], int curre
             cell2Idx = randIntInRange(0, currentCellCount - 1);
         }
 
-        addDirectedConnection(&worldCells[cell1Idx], worldCells[cell2Idx]);
+        addDirectedConnection(&worldCells[cell1Idx], &worldCells[cell2Idx]);
     }
 }

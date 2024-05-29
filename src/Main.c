@@ -16,6 +16,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "world/World.h"
+#include "world_connections/WorldCellConnection.h"
 #include "./globals/UtilFunctions.h"
 #include <stdio.h>
 
@@ -85,6 +86,7 @@ int main(void)
 
             BeginMode2D(camera);
 
+                // draw world grid
                 for (int i = 0; i < WORLD_NODECOUNT_X; i++) {
                     for (int j = 0; j < WORLD_NODECOUNT_Y; j++) {
                         DrawCircle(
@@ -95,23 +97,6 @@ int main(void)
                         );
                     }
                 }
-
-                // draw connection lines
-                for (int i = 0; i < cellCount; i++) {
-                    Cell cell = WORLD_INHABITED_CELLS[i];
-
-                    
-                    for (int connIdx = 0; connIdx < cell.connectionCount; connIdx++) {
-                        int startX = cell.baseCellAttrs.posX;
-                        int startY = cell.baseCellAttrs.posY;
-                        int endX = cell.cellConnections[connIdx].posX;
-                        int endY = cell.cellConnections[connIdx].posY;
-
-                        DrawLine(startX, startY, endX, endY, RED);
-                    }
-                }
-
-                recalculateCellRadii();
 
                 // draw cells
                 for (int i = 0; i < cellCount; i++) {
@@ -134,26 +119,45 @@ int main(void)
                     );
                 }
 
+                // draw connections
+                // directed
+                for (int dir_idx = 0; dir_idx < globalDirectedConnections; dir_idx++) {
+                    WorldCellConnection connection = directedConnections[dir_idx];
+                    Cell *start = connection.start;
+                    Cell *end = connection.end;
+                    DrawLine(start->baseCellAttrs.posX, start->baseCellAttrs.posY, end->baseCellAttrs.posX, end->baseCellAttrs.posY, RED);
+                }
+
+                // undirected
+                for (int udir_idx = 0; udir_idx < globalUndirectedConnections; udir_idx++) {
+                    WorldCellConnection connection = undirectedConnections[udir_idx];
+                    Cell *start = connection.start;
+                    Cell *end = connection.end;
+                    DrawLine(start->baseCellAttrs.posX, start->baseCellAttrs.posY, end->baseCellAttrs.posX, end->baseCellAttrs.posY, BLUE);
+                }
+
+                // handle connection dynamics
+                recalculateCellRadii();
+
+                // handle user input
                 if (IsKeyPressed(KEY_W)) {
-                    Cell* a = &WORLD_INHABITED_CELLS[connectionIdx];
-                    Cell* b = &WORLD_INHABITED_CELLS[connectionIdx + 1];
-                    addUndirectedConnection(a, b);
-                    connectionIdx++;
-                }
-
-                if (IsKeyPressed(KEY_S)) {
-                    Cell* a = &WORLD_INHABITED_CELLS[connectionIdx - 1];
-                    Cell* b = &WORLD_INHABITED_CELLS[connectionIdx];
-                    removeUndirectedConnection(a, b);
-                    connectionIdx--;
-                }
-
-                if (IsKeyPressed(KEY_E)) {
+                    printf("\nAdding new undirected connection");
                     addRandomUndirectedConnection(cellCount);
                 }
 
-                if (IsKeyPressed(KEY_D)) {
+                if (IsKeyPressed(KEY_S)) {
+                    printf("\nDeleting last undirected connection");
+                    deleteLastUndirectedConnection();
+                }
+
+                if (IsKeyPressed(KEY_E)) {
+                    printf("\nAdding new directed connection");
                     addRandomDirectedConnection(cellCount);
+                }
+
+                if (IsKeyPressed(KEY_D)) {
+                    printf("\nDeleting last directed connection");
+                    deleteLastDirectedConnection(cellCount);
                 }
 
             EndMode2D();
