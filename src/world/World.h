@@ -8,6 +8,8 @@
 #include "../globals/Constants.h"
 #include "../globals/UtilFunctions.h"
 #include <errno.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 
 //--------------------------------world objects--------------------------------
@@ -20,5 +22,6 @@ void printCells(Cell worldCells[]);
 void initializeWorldBaseGrid(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]);
 void initializeCells(int cellCount, float minCellRadius, float maxCellRadius, float clearRadius);
 void recalculateCellRadii();
+int getCellMaxChainLength(Cell cell);
 
 #endif

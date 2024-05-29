@@ -5,6 +5,8 @@
 //--------------------------------local declarations---------------------------
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY);
 static void initializeCellAtIdx(WorldNode *node, float r, int idx);
+static int cellDfs(Cell* cell);
+static Cell** getConnectedCells(Cell cell);
 
 //--------------------------------world variables------------------------------
 WorldNode WORLD_BASE_GRID[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y];
@@ -28,12 +30,13 @@ void printWorld(WorldNode world[WORLD_NODECOUNT_X][WORLD_NODECOUNT_Y]) {
 void printCells(Cell worldCells[WORLD_MAX_ENTITY_COUNT]) {
     for (int i = 0; i < globalCells; i++) {
         Cell cell = WORLD_INHABITED_CELLS[i];
-        printf("Cell[%d]\t:x %d\ty: %d\tradius: %f\tconnections: %d\n",
+        printf("Cell[%d]\t:x %d\ty: %d\tradius: %f\tconnections: %d, dfs visited: %d\n",
                 i,
                 cell.baseCellAttrs.posX,
                 cell.baseCellAttrs.posY,
                 cell.baseCellAttrs.radius,
-                cell.connectionCount);
+                cell.connectionCount,
+                cell.dfsVisited);
     }
 }
 
@@ -105,6 +108,21 @@ void recalculateCellRadii() {
     }
 }
 
+int getCellMaxChainLength(Cell cell) {
+    for (int i = 0; i < globalCells; i++) {
+        WORLD_INHABITED_CELLS[i].dfsVisited = false;
+    }
+    
+    printf("\n----Calling DFS");
+    int maxChainLength = cellDfs(&cell);
+
+    for (int i = 0; i < globalCells; i++) {
+        WORLD_INHABITED_CELLS[i].dfsVisited = false;
+    }
+
+    return maxChainLength;
+}
+
 //--------------------------------private function definitions-----------------
 static void getRandomCellPosition(int posArray[], int lowX, int highX, int lowY, int highY) {
     int x = randIntInRange(lowX, highX - 1);
@@ -118,4 +136,83 @@ static void initializeCellAtIdx(WorldNode *node, float r, int idx) {
     WORLD_INHABITED_CELLS[idx].baseCellAttrs.posY = node->posY;
     WORLD_INHABITED_CELLS[idx].baseCellAttrs.radius = r;
     WORLD_INHABITED_CELLS[idx].connectionCount = 0;
+    WORLD_INHABITED_CELLS[idx].dfsVisited = false;
+}
+
+static int cellDfs(Cell* cell) {
+    if (cell->dfsVisited == true) {
+        printf("\n--------cell already visited--------");
+        return 0;
+    }
+
+    cell->dfsVisited = true;
+    Cell** neighbors = getConnectedCells(*cell);
+    int longestPath = 0;
+
+    if (neighbors != NULL) {
+        printf("\n----Found %d neighbours", cell->connectionCount);
+        for (int j = 0; j < cell->connectionCount; j++) {
+            printf("\n----neighbor %d: (%d, %d)",
+            j,
+            neighbors[j]->baseCellAttrs.posX,
+            neighbors[j]->baseCellAttrs.posY);
+        }
+        for (int i = 0; i < cell->connectionCount; i++) {
+            if (!neighbors[i]->dfsVisited) {
+                int length = cellDfs(neighbors[i]);
+                if (length > longestPath) {
+                    longestPath = length;
+                }
+            }
+        }
+        free(neighbors);
+    }
+    cell->dfsVisited = false;
+
+    return longestPath + 1;
+}
+
+static Cell** getConnectedCells(Cell cell) {
+    Cell** cells = malloc(sizeof(Cell*) * cell.connectionCount);
+
+    if (cells == NULL) {
+        return NULL;
+    }
+
+    int neighborIdx = 0;
+
+    for (int i = 0; i < globalUndirectedConnections; i++) {
+        WorldCellConnection conn = undirectedConnections[i];
+        Cell *a = conn.start;
+        Cell *b = conn.end;
+
+        if ((a->baseCellAttrs.posX == cell.baseCellAttrs.posX) && \
+        (a->baseCellAttrs.posY == cell.baseCellAttrs.posY) && \
+        (neighborIdx < cell.connectionCount)) {
+            cells[neighborIdx] = b;
+            neighborIdx++;
+        }
+
+        if ((b->baseCellAttrs.posX == cell.baseCellAttrs.posX) && \
+        (b->baseCellAttrs.posY == cell.baseCellAttrs.posY) && \
+        (neighborIdx < cell.connectionCount)) {
+            cells[neighborIdx] = a;
+            neighborIdx++;
+        }
+    }
+
+
+    for (int i = 0; i < globalDirectedConnections; i++) {
+        WorldCellConnection conn = directedConnections[i];
+        Cell *b = conn.end;
+
+        if ((b->baseCellAttrs.posX == cell.baseCellAttrs.posX) && \
+        (b->baseCellAttrs.posY == cell.baseCellAttrs.posY) && \
+        (neighborIdx < cell.connectionCount)) {
+            cells[neighborIdx] = b;
+            neighborIdx++;
+        }
+    }
+
+    return cells;
 }

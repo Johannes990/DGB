@@ -102,6 +102,20 @@ int main(void)
                 if (IsKeyPressed(KEY_W)) {
                     printf("\nAdding new undirected connection");
                     addRandomUndirectedConnection(cellCount);
+                    WorldCellConnection conn = undirectedConnections[globalUndirectedConnections - 1];
+                    Cell *a = conn.start;
+                    Cell *b = conn.end;
+                    printf("\nCell (%d, %d) has longest chain length of %d",
+                            a->baseCellAttrs.posX,
+                            a->baseCellAttrs.posY,
+                            getCellMaxChainLength(*a) - 2
+                    );
+                    printf("\nCell (%d, %d) has longest chain length of %d",
+                            b->baseCellAttrs.posX,
+                            b->baseCellAttrs.posY,
+                            getCellMaxChainLength(*b) - 2
+                    );
+                    
                 }
 
                 if (IsKeyPressed(KEY_S)) {
@@ -125,7 +139,13 @@ int main(void)
                     WorldCellConnection connection = directedConnections[dir_idx];
                     Cell *start = connection.start;
                     Cell *end = connection.end;
-                    DrawLine(start->baseCellAttrs.posX, start->baseCellAttrs.posY, end->baseCellAttrs.posX, end->baseCellAttrs.posY, RED);
+                    DrawLine(
+                        start->baseCellAttrs.posX,
+                        start->baseCellAttrs.posY,
+                        end->baseCellAttrs.posX,
+                        end->baseCellAttrs.posY,
+                        RED
+                    );
                 }
 
                 // undirected
@@ -133,7 +153,13 @@ int main(void)
                     WorldCellConnection connection = undirectedConnections[udir_idx];
                     Cell *start = connection.start;
                     Cell *end = connection.end;
-                    DrawLine(start->baseCellAttrs.posX, start->baseCellAttrs.posY, end->baseCellAttrs.posX, end->baseCellAttrs.posY, BLUE);
+                    DrawLine(
+                        start->baseCellAttrs.posX,
+                        start->baseCellAttrs.posY,
+                        end->baseCellAttrs.posX,
+                        end->baseCellAttrs.posY,
+                        BLUE
+                    );
                 }
 
                 // handle connection dynamics

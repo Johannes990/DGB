@@ -35,7 +35,6 @@ void deleteConnectionBaseCellAtIdx(Cell* a, const int idx) {
     a->connectionCount = a->connectionCount - 1;
 }
 
-
 //--------------------------------private functions----------------------------
 static float radiusFunction1(int cellConnectionCount) {
     float radius = 5.0f * sqrt(cellConnectionCount);
